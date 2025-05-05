@@ -24,10 +24,6 @@
 
   
 
-Bu bölüme projenizin ne hakkında olduğunu kısa ve net bir şekilde yazınız.
-
-  
-
 Hastaneler için randevu / otomasyon sistemi.
 
   
