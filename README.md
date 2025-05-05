@@ -1,3 +1,2 @@
 Gerekli kütüpheneler:
-
-Flask, bcrypt, sqlite3
+Flask bcrypt
