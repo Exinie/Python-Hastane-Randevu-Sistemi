@@ -71,9 +71,9 @@ Kullanılacak veri tabanı SQLite olacaktır. Saklanacak veriler şu şekildedir
 
 ### 3. Kullanıcı Yönetimi (Farklı Kullanıcı Tipleri)
 
-Hasta : Hasta kullanıcı kaydı yapabilir. Randevu oluşturabilir. Tahlil sonuçlarına bakabilir.
-Doktor : Randevuları görüntüleyebilir, onaylayabilir. Hastanın sağlık bilgilerini görüntüleyebilir, hastaya ilaç yazabilir, hastaya tahlil sonucu girebilir. 
-Yönetici : Tüm kullanıcıların bilgilerini, randevularını, yazılan ilaçları, tahlil sonuçlarını görüntüleyebilir, düzenleyebilir, silebilir. Log kayıtlarını görüntüleyebilir.
+Hasta : Hasta kullanıcı kaydı yapabilir. Randevu oluşturabilir. Tahlil sonuçlarına bakabilir.\
+Doktor : Randevuları görüntüleyebilir, onaylayabilir. Hastanın sağlık bilgilerini görüntüleyebilir, hastaya ilaç yazabilir, hastaya tahlil sonucu girebilir.\
+Yönetici : Tüm kullanıcıların bilgilerini, randevularını, yazılan ilaçları, tahlil sonuçlarını görüntüleyebilir, düzenleyebilir, silebilir. Log kayıtlarını görüntüleyebilir.\
 
 
 
