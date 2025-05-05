@@ -73,7 +73,7 @@ Kullanılacak veri tabanı SQLite olacaktır. Saklanacak veriler şu şekildedir
 
 Hasta : Hasta kullanıcı kaydı yapabilir. Randevu oluşturabilir. Tahlil sonuçlarına bakabilir.\
 Doktor : Randevuları görüntüleyebilir, onaylayabilir. Hastanın sağlık bilgilerini görüntüleyebilir, hastaya ilaç yazabilir, hastaya tahlil sonucu girebilir.\
-Yönetici : Tüm kullanıcıların bilgilerini, randevularını, yazılan ilaçları, tahlil sonuçlarını görüntüleyebilir, düzenleyebilir, silebilir. Log kayıtlarını görüntüleyebilir.\
+Yönetici : Tüm kullanıcıların bilgilerini, randevularını, yazılan ilaçları, tahlil sonuçlarını görüntüleyebilir, düzenleyebilir, silebilir. Log kayıtlarını görüntüleyebilir.
 
 
 
