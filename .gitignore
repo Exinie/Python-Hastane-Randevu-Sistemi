@@ -1,0 +1,17 @@
+# Git yazılımının kara listesi (Repoya yüklenmesini istemediğimiz dosyaları ve klasörleri burada tanımlıyoruz)
+
+# Sanal ortam klasörlerini yok say
+.venv/
+venv/
+
+# Python derleme dosyaları
+__pycache__/
+*.py[cod]
+*.pyo
+
+# .github klasörünü yok say
+.github/
+
+# Çeşitli sistem dosyaları (genel iyi bir pratik)
+.DS_Store
+Thumbs.db
