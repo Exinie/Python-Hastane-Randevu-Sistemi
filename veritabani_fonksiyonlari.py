@@ -8,3 +8,6 @@ def veritabanini_bastan_olustur():
 
 def kayit_islemi():
     return True
+
+def giris_islemi():
+    return True
