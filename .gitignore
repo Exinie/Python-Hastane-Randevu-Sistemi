@@ -6,6 +6,8 @@ venv/
 
 # Python derleme dosyaları
 __pycache__/
+__pycache__/app.cpython-313.pyc
+__pycache__/veritabani_fonksiyonlari.cpython-313.pyc
 *.py[cod]
 *.pyo
 
@@ -15,3 +17,4 @@ __pycache__/
 # Çeşitli sistem dosyaları (genel iyi bir pratik)
 .DS_Store
 Thumbs.db
+
