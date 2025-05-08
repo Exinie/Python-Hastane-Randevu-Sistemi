@@ -53,7 +53,6 @@ Hastaneler için randevu / otomasyon sistemi.
 
   
 
-Aşağıdaki her proje gerekliliği için, nasıl karşılanacağını kısa bir açıklamayla belirtiniz.
 
   
 
