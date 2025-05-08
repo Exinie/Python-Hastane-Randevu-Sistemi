@@ -39,7 +39,7 @@ Hastaneler için randevu / otomasyon sistemi.
 | Ad - Soyad | Sorumlu Olduğu Bölüm / Görev       |
 |----------------------|------------------------------------|
 | Erdem Ural           | Kullanıcı işlemleri fonksiyonları, Tkinter arayüz kodlaması |
-| Ege Yardımcı           | Veri tabanı, Vatandaş kullanzıcılarının işlemlerinin fonksiyonları |
+| Ege Yardımcı           | Veri tabanı, Vatandaş kullanıcılarının işlemlerinin fonksiyonları |
 | Yiğit Yıldız           | Tkinter arayüz kodlaması, Doktor kullanıcılarının işlemlerinin fonksiyonları |
 | Nuh Mehmet Turhan           | Tkinter arayüz kodlaması, Yönetici kullanıcılarının işlemlerinin fonksiyonları |
 
@@ -59,7 +59,7 @@ Aşağıdaki her proje gerekliliği için, nasıl karşılanacağını kısa bir
 
 ### 1. Genel Proje Çalışma Sistemi
 
-Kullanıcı program arayüzünden işlemler yapabilecek, menüler arasında görüntülenen penceredeki butonlar üzerinden gezinebilecek ve bu pencerelerdeki elementler üzerinden arkaplandaki API / fonksiyonlar ile veri alışverişi yapacak.
+Kullanıcı program arayüzünden işlemler yapabilecek, menüler arasında görüntülenen penceredeki butonlar veya diğer elemenler üzerinden gezinebilecek ve bu pencerelerdeki elementler üzerinden arkaplandaki API / fonksiyonlar ile veri alışverişi yapacak.
 
   
 
