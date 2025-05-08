@@ -82,9 +82,9 @@ Yönetici : Tüm kullanıcıların bilgilerini, randevularını, yazılan ilaçl
 
 ### 4. İşlem Kayıtları
 
-Kullanıcıdan gelen web sayfasından API'ye giden veriyi arka yüz işleyecek ve veritabanına kaydedecek.
-
+Kullanıcıdan program arayüzünden yapılan işlem sonucu gelen veriler arka yüzde işlenecek ve görevine göre veri tabanına kaydı gerçekleştirilecek.
   
+
 
 ### 5. Raporlama
 
