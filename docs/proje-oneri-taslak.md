@@ -9,10 +9,10 @@
 
 | Ad - Soyad |  Numarası |
 |----------------------|-------------------|
-| Erdem Ural           | 202407105086          |
-| Ege Yardımcı           | 202407105063          |
-| Yiğit Yıldız           | 202407105091          |
-| Nuh Mehmet Turhan           | 202407105080          |
+| [Erdem Ural]           | [202407105086]          |
+| [Ege Yardımcı]           | [202407105063]          |
+| [Yiğit Yıldız]           | [202407105091]          |
+| [Nuh Mehmet Turhan]           | [202407105080]          |
 
   
 
@@ -38,10 +38,10 @@ Hastaneler için randevu / otomasyon sistemi.
 
 | Ad - Soyad | Sorumlu Olduğu Bölüm / Görev       |
 |----------------------|------------------------------------|
-| Erdem Ural           | Kullanıcı işlemleri fonksiyonları, Tkinter arayüz kodlaması |
-| Ege Yardımcı           | Veri tabanı, Vatandaş kullanzıcılarının işlemlerinin fonksiyonları |
-| Yiğit Yıldız           | Tkinter arayüz kodlaması, Doktor kullanıcılarının işlemlerinin fonksiyonları |
-| Nuh Mehmet Turhan           | Tkinter arayüz kodlaması, Yönetici kullanıcılarının işlemlerinin fonksiyonları |
+| [Erdem Ural]           | Python backend – API geliştirme, oturum işlemleri |
+| [Ege Yardımcı]           | Veri tabanı – tablo yapısı, sorgular, ilişki düzeni |
+| [Yiğit Yıldız]           | Ön yüz – HTML/CSS/JS, kullanıcı arayüzü, responsive tasarım |
+| [Nuh Mehmet Turhan]           | Ön yüz – HTML/CSS/JS, kullanıcı arayüzü, responsive tasarım |
 
   
 
@@ -59,16 +59,13 @@ Aşağıdaki her proje gerekliliği için, nasıl karşılanacağını kısa bir
 
 ### 1. Genel Proje Çalışma Sistemi
 
-Kullanıcı program arayüzünden işlemler yapabilecek, menüler arasında görüntülenen penceredeki butonlar üzerinden gezinebilecek ve bu pencerelerdeki elementler üzerinden arkaplandaki API / fonksiyonlar ile veri alışverişi yapacak.
+Kullanıcı web sayfasından işlemler yapabilecek, menüler arasında web sayfaları üzerinden geçiş yapacak ve bu web sayfalarından API ile iletişime geçecek.
 
   
 
 ### 2. Veri Tabanı Kullanımı
 
-Kullanılacak veri tabanı SQLite olacaktır. Saklanacak veriler şu şekildedir:\
-Hasta, doktor kullanıcı bilgileri: rolleri, randevuları tahlil sonuçları, bilinen rahatsızlıklar / alerjiler.\
-yönetici kullanıcı bilgileri.\
-Log kayıtları.
+Kullanılacak veri tabanı SQLite olacaktır. Saklanacak veriler şu şekildedir: hasta / doktor kullanıcı bilgileri, rolleri, randevuları, tahlil sonuçları; yönetici kullanıcı bilgileri, log kayıtları.
 
   
 
@@ -88,8 +85,8 @@ Kullanıcıdan gelen web sayfasından API'ye giden veriyi arka yüz işleyecek v
 
 ### 5. Raporlama
 
-Kullanıcı programı çalıştıracak, daha önceden oluşturduğu kullanıcı bilgilerini girerek sisteme giriş yapacak, kullanıcı rolüne bağlı olarak tahlil sonuçlarını görüntüleyip indirme veya log kayıtlarını görüntüleyip indirme gibi işlemleri gerçekleştirecek ve bu şekilde rapor edinmiş olacak.
-
+Kullanıcılar web sitesine girecek, daha önceden oluşturduğu kullanıcının girişini yapacak, ve ilgili web sayfalarından edinmek istediği raporu elde edecek.
+  
 
 ### 6. Grup Çalışması Kriterleri
 
