@@ -1,2 +1,2 @@
 Gerekli kütüpheneler:
-Flask bcrypt
+sqlite3 tk passlib
