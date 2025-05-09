@@ -13,6 +13,8 @@ def veritabanini_kur():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS DOKTORLAR (
         doktor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tc_no TEXT NOT NULL,
+        sifre TEXT NOT NULL,
         ad TEXT NOT NULL,
         soyad TEXT NOT NULL,
         uzmanlik TEXT NOT NULL,
@@ -24,6 +26,8 @@ def veritabanini_kur():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS HASTALAR (
         hasta_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tc_no TEXT NOT NULL,
+        sifre TEXT NOT NULL,
         ad TEXT NOT NULL,
         soyad TEXT NOT NULL,
         dogum_tarihi TEXT,
@@ -37,9 +41,7 @@ def veritabanini_kur():
     CREATE TABLE IF NOT EXISTS YONETICILER (
         yonetici_id INTEGER PRIMARY KEY AUTOINCREMENT,
         kullanici_adi TEXT NOT NULL,
-        pozisyon TEXT NOT NULL,
-        telefon TEXT,
-        email TEXT
+        sifre TEXT NOT NULL
     )
     ''')
 
