@@ -1,0 +1,21 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+kullanicilar = {}
+
+def kullanici_ekle():
+    adi = entry_ad.get()
+    sifre = entry_sifre.get()
+    yetki = combo_yetki.get()
+ 
+ if not adi or not sifre or not yetki:
+        messagebox.showwarning("Hata", "Tüm alanlar doldurulmalıdır.")
+        return
+
+if adi in kullanicilar:
+        messagebox.showwarning("Hata", "Bu kullanıcı zaten mevcut.")
+    else:
+        kullanicilar[adi] = {"sifre": sifre, "yetki": yetki}
+        messagebox.showinfo("Başarılı", "Kullanıcı eklendi.")
+        listele()
+
