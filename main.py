@@ -51,15 +51,18 @@ def frm_hasta_kayit():
 # Hasta kayıt penceresi oluşumu
     hasta_kayit_pencere = tk.Tk()
     hasta_kayit_pencere.title("")
-    hasta_kayit_pencere.geometry("300x250")
+    hasta_kayit_pencere.geometry("300x300")
 
     # Olaylar
     def btn_kayit_ol_click():
         tc_no = entry_tc_no.get()
         sifre = entry_sifre.get()
+        ad = entry_ad.get()
+        soyad = entry_soyad.get()
 
-        if kayit_ol(tc_no, sifre):
-            pass
+        if kayit_ol(tc_no, sifre, ad, soyad):
+            hasta_kayit_pencere.destroy()
+            frm_hasta_giris()
         else:
             pass
           
