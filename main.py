@@ -60,7 +60,7 @@ def frm_hasta_kayit():
         ad = entry_ad.get()
         soyad = entry_soyad.get()
 
-        if kayit_ol(tc_no, sifre, ad, soyad):
+        if hasta_kayit_ol(tc_no, sifre, ad, soyad):
             hasta_kayit_pencere.destroy()
             frm_hasta_giris()
         else:

@@ -4,7 +4,7 @@ import sqlite3
 
 from main import *
 
-def tc_kayitli_mi(tc_no):
+def hasta_tc_kayitli_mi(tc_no):
 
     conn = sqlite3.connect('veritabani.db')
     cursor = conn.cursor()
@@ -21,13 +21,13 @@ def tc_kayitli_mi(tc_no):
     else:
         return False
 
-def kayit_ol(tc_no, sifre, ad, soyad):
+def hasta_kayit_ol(tc_no, sifre, ad, soyad):
 
     if tc_no.strip() and sifre.strip() and ad.strip() and soyad.strip():
         
         if len(tc_no) < 11:
             messagebox.showwarning("Uyarı", "Geçersiz TC kimlik numarası.")
-        elif tc_kayitli_mi(tc_no):
+        elif hasta_tc_kayitli_mi(tc_no):
             messagebox.showwarning("Uyarı", "Girilen TC kimlik numarası zaten kayıtlı.")
         else:
             conn = sqlite3.connect('veritabani.db')
