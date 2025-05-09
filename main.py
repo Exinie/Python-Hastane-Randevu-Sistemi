@@ -35,7 +35,7 @@ def main():
 def frm_kullanici_girisi():
 # Kullanıcı girişi penceresi oluşumu
     kullanici_girisi_pencere = tk.Tk()
-    kullanici_girisi_pencere.title("Kullanıcı Girişi")
+    kullanici_girisi_pencere.title("")
     kullanici_girisi_pencere.geometry("300x250")
 
     # Olaylar
@@ -50,9 +50,9 @@ def frm_kullanici_girisi():
           
 
     # Başlık
-    lbl = tk.Label(kullanici_girisi_pencere, text="Giriş Yap", font=("Arial", 14))
-    lbl.pack(pady=0)
-    lbl1 = tk.Label(kullanici_girisi_pencere, text="Vatandaş, personel giriş bilgilerinizi giriniz", font=("Arial", 12))
+    lbl = tk.Label(kullanici_girisi_pencere, text="Sistem Girişi", font=("Arial", 14))
+    lbl.pack()
+    lbl1 = tk.Label(kullanici_girisi_pencere, text="Hasta veya doktor giriş bilgilerinizi giriniz", font=("Arial", 12))
     lbl1.pack(pady=20)
 
      # Form alanları
