@@ -2,8 +2,12 @@ import tkinter as tk
 from tkinter import messagebox
 
 from oturum_islemleri import *
+from veritabani_kurulumu import *
 
 def main():
+
+    veritabanini_kur()
+
 # Ana pencere oluşumu
     ana_pencere = tk.Tk()
     ana_pencere.title("")
