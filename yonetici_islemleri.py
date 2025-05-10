@@ -19,3 +19,11 @@ if adi in kullanicilar:
         messagebox.showinfo("Başarılı", "Kullanıcı eklendi.")
         listele()
 
+def kullanici_sil():
+    adi = entry_ad.get()
+    if adi in kullanicilar:
+        del kullanicilar[adi]
+        messagebox.showinfo("Silindi", "Kullanıcı silindi.")
+        listele()
+    else:
+        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
