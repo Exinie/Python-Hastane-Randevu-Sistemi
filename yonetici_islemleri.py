@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+
 kullanicilar = {}
 
 def kullanici_ekle():
@@ -24,6 +25,21 @@ def kullanici_sil():
     if adi in kullanicilar:
         del kullanicilar[adi]
         messagebox.showinfo("Silindi", "Kullanıcı silindi.")
+        listele()
+    else:
+        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
+
+def kullanici_guncelle():
+    adi = entry_ad.get()
+    sifre = entry_sifre.get()
+    yetki = combo_yetki.get()
+
+    if adi in kullanicilar:
+        if sifre:
+            kullanicilar[adi]["sifre"] = sifre
+        if yetki:
+            kullanicilar[adi]["yetki"] = yetki
+        messagebox.showinfo("Güncellendi", "Kullanıcı güncellendi.")
         listele()
     else:
         messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
