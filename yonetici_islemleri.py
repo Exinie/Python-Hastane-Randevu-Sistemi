@@ -43,3 +43,8 @@ def kullanici_guncelle():
         listele()
     else:
         messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
+        
+def listele():
+    liste.delete(0, tk.END)
+    for k_adi, bilgi in kullanicilar.items():
+        liste.insert(tk.END, f"{k_adi} - {bilgi['yetki']}")
