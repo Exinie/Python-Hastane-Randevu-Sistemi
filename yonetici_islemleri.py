@@ -48,3 +48,34 @@ def listele():
     liste.delete(0, tk.END)
     for k_adi, bilgi in kullanicilar.items():
         liste.insert(tk.END, f"{k_adi} - {bilgi['yetki']}")
+
+
+
+#arayüz
+
+pencere = tk.Tk()
+pencere.title("Yönetici Kullanıcı Paneli")
+
+tk.Label(pencere, text="Kullanıcı Adı:").pack()
+entry_ad = tk.Entry(pencere)
+entry_ad.pack()
+
+tk.Label(pencere, text="Şifre:").pack()
+entry_sifre = tk.Entry(pencere, show="*")
+entry_sifre.pack()
+
+tk.Label(pencere, text="Yetki:").pack()
+combo_yetki = ttk.Combobox(pencere, values=["yönetici", "doktor", "hasta"])
+combo_yetki.pack()
+
+tk.Button(pencere, text="Ekle", command=kullanici_ekle).pack()
+tk.Button(pencere, text="Sil", command=kullanici_sil).pack()
+tk.Button(pencere, text="Güncelle", command=kullanici_guncelle).pack()
+tk.Button(pencere, text="Listele", command=listele).pack()
+
+liste = tk.Listbox(pencere, width=40)
+liste.pack()
+
+pencere.mainloop()
+
+
