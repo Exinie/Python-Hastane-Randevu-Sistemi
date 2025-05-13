@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
-
 from veritabani_kurulumu import veritabanini_kur
-from oturum_islemleri import hasta_kayit_et, doktor_oturum_ac, hasta_oturum_ac
+from oturum_islemleri import hasta_kayit_et, doktor_oturum_ac, hasta_oturum_ac, oturumu_baslat
 from doktor_islemleri import doktor_recete_yaz
 
 def main():
@@ -17,15 +16,15 @@ def main():
 
     # Olaylar
     def btn_hasta_girisi_click():
-        ana_pencere.destroy()
+        ana_pencere.withdraw()
         frm_hasta_giris()
 
     def btn_hasta_kayit_click():
-        ana_pencere.destroy()
+        ana_pencere.withdraw()
         frm_hasta_kayit()
     
     def btn_doktor_giris_click():
-        ana_pencere.destroy()
+        ana_pencere.withdraw()
         frm_doktor_giris()
 
     # Başlık metni
@@ -45,8 +44,8 @@ def main():
     btnYoneticiGirisi = tk.Button(ana_pencere, text="Yönetici Girişi", width=20)
     btnYoneticiGirisi.pack(pady=5)
 
-    buton3 = tk.Button(ana_pencere, text="Çıkış", width=20, command=ana_pencere.quit)
-    buton3.pack(pady=5)
+    btnCikis = tk.Button(ana_pencere, text="Çıkış", width=20, command=ana_pencere.quit)
+    btnCikis.pack(pady=5)
 
     # Pencereyi göster
     ana_pencere.mainloop()
@@ -54,7 +53,7 @@ def main():
 
 def frm_hasta_kayit():
 # Hasta kayıt penceresi oluşumu
-    hasta_kayit_pencere = tk.Tk()
+    hasta_kayit_pencere = tk.Toplevel()
     hasta_kayit_pencere.title("")
     hasta_kayit_pencere.geometry("300x300")
 
@@ -95,14 +94,11 @@ def frm_hasta_kayit():
     entry_sifre.pack()
     
     tk.Button(hasta_kayit_pencere, text="Kayıt Ol", width=15, command=btn_kayit_ol_click).pack(pady=10)
-
-    # Pencereyi göster
-    hasta_kayit_pencere.mainloop()
 # End Hasta kayıt penceresi oluşumu
 
 def frm_hasta_giris():
-# Kullanıcı girişi penceresi oluşumu
-    hasta_girisi_pencere = tk.Tk()
+# Hasta girişi penceresi oluşumu
+    hasta_girisi_pencere = tk.Toplevel()
     hasta_girisi_pencere.title("")
     hasta_girisi_pencere.geometry("300x250")
 
@@ -111,8 +107,10 @@ def frm_hasta_giris():
         tc_no = entry_kullanici_adi.get()
         sifre = entry_sifre.get()
 
-        if hasta_oturum_ac(tc_no, sifre):
-            pass
+        oturum = hasta_oturum_ac(tc_no, sifre)
+        if oturum:
+            hasta_girisi_pencere.destroy()
+            frm_hasta_paneli(oturum)
         else:
             messagebox.showwarning("Uyarı", "Kullanıcı adı veya şifreniz yanlış")
           
@@ -134,14 +132,37 @@ def frm_hasta_giris():
     entry_sifre.pack()
     
     tk.Button(hasta_girisi_pencere, text="Giriş Yap", width=15, command=btn_giris_yap_click).pack(pady=10)
+# End Hasta girişi penceresi oluşumu
 
-    # Pencereyi göster
-    hasta_girisi_pencere.mainloop()
-# End Kullanıcı girişi penceresi oluşumu
+def frm_hasta_paneli(oturum):
+# Hasta paneli penceresi oluşumu
+    hasta_paneli_pencere = tk.Toplevel()
+    hasta_paneli_pencere.title("")
+    hasta_paneli_pencere.geometry("300x250")
+
+    # Olaylar
+    def btn_randevu_al_click():
+        pass
+            
+    # Başlık    
+
+    
+
+    lbl = tk.Label(hasta_paneli_pencere, text="Hasta Paneli", font=("Arial", 14))
+    lbl.pack()
+
+    lbl1 = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz " + oturum["ad"] + " " + oturum["soyad"], font=("Arial", 12))
+    lbl1.pack(pady=20)
+
+    lbl2 = tk.Label(hasta_paneli_pencere, text="Senin rolün: " + oturum["kullanici_tipi"], font=("Arial", 12))
+    lbl2.pack(pady=20)
+
+    tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", width=15, command=btn_randevu_al_click).pack(pady=10)
+# End Hasta paneli penceresi oluşumu
 
 def frm_doktor_giris():
 # Doktor girişi penceresi oluşumu
-    doktor_girisi_pencere = tk.Tk()
+    doktor_girisi_pencere = tk.Toplevel()
     doktor_girisi_pencere.title("")
     doktor_girisi_pencere.geometry("300x250")
     
@@ -150,9 +171,10 @@ def frm_doktor_giris():
         tc_no = entry_tc_no.get()
         sifre = entry_sifre.get()
 
-        if doktor_oturum_ac(tc_no, sifre):
+        oturum = doktor_oturum_ac(tc_no, sifre)
+        if oturum:
             doktor_girisi_pencere.destroy()
-            frm_doktor_paneli()
+            frm_doktor_paneli(oturum)
         else:
             pass
     
@@ -171,32 +193,31 @@ def frm_doktor_giris():
     entry_sifre.pack(pady=5)
             
     tk.Button(doktor_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giriş_yap_click).pack(pady=10)
-
-    # Pencereyi göster
-    doktor_girisi_pencere.mainloop()
 # End Hasta kayıt penceresi oluşumu
 
-def frm_doktor_paneli():
+def frm_doktor_paneli(oturum):
 # Doktor paneli penceresi oluşumu
-    doktor_paneli_pencere = tk.Tk()
+    doktor_paneli_pencere = tk.Toplevel()
     doktor_paneli_pencere.title("")
     doktor_paneli_pencere.geometry("300x250")
 
     # Olaylar
     def btn_retece_yaz_click():
-        doktor_recete_yaz()
+        doktor_recete_yaz(oturum)
             
-    # Başlık
-    lbl = tk.Label(doktor_paneli_pencere, text="DOKTOR PANELI", font=("Arial", 14))
+    # Başlık    
+    lbl = tk.Label(doktor_paneli_pencere, text="Doktor Paneli", font=("Arial", 14))
     lbl.pack()
-    lbl1 = tk.Label(doktor_paneli_pencere, text="BU SAYFADAYSAN DOKTORSUNNN", font=("Arial", 12))
+
+    lbl1 = tk.Label(doktor_paneli_pencere, text="Hoş geldiniz " + oturum["ad"] + " " + oturum["soyad"], font=("Arial", 12))
     lbl1.pack(pady=20)
 
-    tk.Button(doktor_paneli_pencere, text="Giriş Yap", width=15, command=btn_retece_yaz_click).pack(pady=10)
+    lbl2 = tk.Label(doktor_paneli_pencere, text="Senin rolün: " + oturum["kullanici_tipi"], font=("Arial", 12))
+    lbl2.pack(pady=20)
 
-    # Pencereyi göster
-    doktor_paneli_pencere.mainloop()
+    tk.Button(doktor_paneli_pencere, text="Reçete Yaz", width=15, command=btn_retece_yaz_click).pack(pady=10)
 # End Doktor paneli penceresi oluşumu
+
 
 if __name__ == "__main__":
     main()

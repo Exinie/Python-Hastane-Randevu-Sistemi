@@ -2,13 +2,19 @@ import tkinter as tk
 from tkinter import messagebox
 import sqlite3
 
-from oturum_islemleri import oturum
+'''
+Örnek giriş yapılı kullanıcının oturumunu (session) okuyup ona göre işlem yapan kod.
+oturum (session) bilgisinin içinden "kullanici_tipi" girdisinin karşılığı "doktor" değilse:
+messagebox ile kullanıcı uyarılıyor ve fonksiyon False dönüyor
 
-def doktor_recete_yaz():
+Oturum bilgisini main'den alıyoruz
+'''
 
-    if "Dişçi" in oturum[0]:
-        print("doktormussun")
-
-        # İŞLEMLER
+def doktor_recete_yaz(oturum):
+    if oturum["kullanici_tipi"] != "doktor":
+        messagebox.showwarning("Uyarı", "Bu işlemi sadece doktor kullanıcıları yapabilir!")
+        return False
     else:
-        print("doktor değilsin")
+        # Doktor reçete yazma işlemleri
+        print("Reçete yazılma işlemi gerçekleşiyor çünkü doktor rolüne sahipsiniz")
+        pass
