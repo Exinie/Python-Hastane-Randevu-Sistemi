@@ -40,7 +40,7 @@ def veritabanini_kur():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS YONETICILER (
         yonetici_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        kullanici_adi TEXT NOT NULL,
+        kullanici_adi TEXT NOT NULL UNIQUE,
         sifre TEXT NOT NULL
     )
     ''')
@@ -56,6 +56,11 @@ def veritabanini_kur():
         FOREIGN KEY (hasta_id) REFERENCES Hastalar(hasta_id),
         FOREIGN KEY (doktor_id) REFERENCES Doktorlar(doktor_id)
     )
+    ''')
+
+    cursor.execute('''
+    INSERT OR IGNORE INTO YONETICILER (kullanici_adi, sifre)
+    VALUES ('yonetici', 'yonetici000')
     ''')
 
     # Burda her şey commitlenip kaydedildi, ardından veritabanı bağlantısı kapatıldı
