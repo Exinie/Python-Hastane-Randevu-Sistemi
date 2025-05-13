@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 from veritabani_kurulumu import veritabanini_kur
-from oturum_islemleri import hasta_kayit_ol, doktor_oturum_ac, hasta_oturum_ac
+from oturum_islemleri import hasta_kayit_et, doktor_oturum_ac, hasta_oturum_ac
 from doktor_islemleri import doktor_recete_yaz
 
 def main():
@@ -65,7 +65,7 @@ def frm_hasta_kayit():
         ad = entry_ad.get()
         soyad = entry_soyad.get()
 
-        if hasta_kayit_ol(tc_no, sifre, ad, soyad):
+        if hasta_kayit_et(tc_no, sifre, ad, soyad):
             hasta_kayit_pencere.destroy()
             frm_hasta_giris()
         else:
