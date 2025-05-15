@@ -16,7 +16,7 @@ class Veritabani:
         self._randevular_tablosu()
         self._kullanicilar_tablosu()
 
-        veritabani.yonetici_ekle('yonetici', 'yonetici000', 'ful yetki')
+        self.yonetici_ekle('yonetici', 'yonetici000', 'ful yetki')
 
         print("veritabanı oluşturuldu ya da hasar görmüşse onarılmıştır.")
 
