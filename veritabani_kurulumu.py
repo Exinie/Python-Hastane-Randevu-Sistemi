@@ -2,7 +2,7 @@ import sqlite3
 
 
 class Veritabani:
-    def __init__(self, db_adi='Veritabani.db'):
+    def __init__(self, db_adi='veritabani.db'):
         self.db_adi = db_adi
         self.conn = sqlite3.connect(self.db_adi)
         self.cursor = self.conn.cursor()
@@ -102,6 +102,6 @@ class Veritabani:
         self.conn.close()
 
         print("Veritabanı bağlantısı kapatıldı.")
-
+        
 veritabani = Veritabani()
 veritabani.commit_kapat()
