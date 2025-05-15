@@ -1,8 +1,15 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import ttk, messagebox
 from veritabani_kurulumu import veritabanini_kur
 from oturum_islemleri import hasta_kayit_et, doktor_oturum_ac, hasta_oturum_ac, oturumu_baslat
 from doktor_islemleri import doktor_recete_yaz
+import sqlite3
+
+entry_ad = None
+entry_sifre = None
+combo_yetki = None
+liste = None
+pencere = None
 
 def main():
 
@@ -27,6 +34,11 @@ def main():
         ana_pencere.withdraw()
         frm_doktor_giris()
 
+    def btn_yonetici_giris_click():
+        ana_pencere.withdraw()
+        frm_yonetici_paneli()
+   
+
     # Başlık metni
     lblUstBaslik = tk.Label(ana_pencere, text="Doğuş Hastanesi", font=("Arial", 18))
     lblUstBaslik.pack(pady=20)  # Dikey boşluk
@@ -41,7 +53,7 @@ def main():
     btnDoktorGirisi = tk.Button(ana_pencere, text="Doktor Girişi", width=20, command=btn_doktor_giris_click)
     btnDoktorGirisi.pack(pady=5)
 
-    btnYoneticiGirisi = tk.Button(ana_pencere, text="Yönetici Girişi", width=20)
+    btnYoneticiGirisi = tk.Button(ana_pencere, text="Yönetici Girişi", width=20, command=frm_yonetici_paneli)
     btnYoneticiGirisi.pack(pady=5)
 
     btnCikis = tk.Button(ana_pencere, text="Çıkış", width=20, command=ana_pencere.quit)
@@ -217,6 +229,113 @@ def frm_doktor_paneli(oturum):
 
     tk.Button(doktor_paneli_pencere, text="Reçete Yaz", width=15, command=btn_retece_yaz_click).pack(pady=10)
 # End Doktor paneli penceresi oluşumu
+
+
+
+
+#yonetıcı paneli penceresi oluşumu
+def frm_yonetici_paneli():
+    global entry_ad, entry_sifre, combo_yetki, liste, pencere
+
+
+    pencere = tk.Toplevel()
+    pencere.title("Yönetici Kullanıcı Paneli")
+    pencere.geometry("350x450")
+
+    tk.Label(pencere, text="Kullanıcı Adı:").pack()
+    entry_ad = tk.Entry(pencere)
+    entry_ad.pack()
+
+    tk.Label(pencere, text="şifre:").pack()
+    entry_sifre = tk.Entry(pencere, show="*")
+    entry_sifre.pack()
+
+    tk.Label(pencere, text="yetki:").pack()
+    combo_yetki = ttk.Combobox(pencere, values=["yönetici", "doktor", "hasta"])
+    combo_yetki.pack()
+
+    
+
+    tk.Button(pencere, text="Ekle", command=kullanici_ekle).pack(pady=2)
+    tk.Button(pencere, text="sil", command=kullanici_sil).pack(pady=2)
+    tk.Button(pencere, text="Güncelle", command=kullanici_guncelle).pack(pady=2)
+    tk.Button(pencere, text="Listele", command=listele).pack(pady=2)
+
+
+    liste = tk.Listbox(pencere, width=40)
+    liste.pack(pady=10)
+
+
+    listele()  
+
+
+
+def listele():
+    liste.delete(0, tk.END)
+    conn = sqlite3.connect("veritabani.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * from kullanicilar")
+    for row in cursor.fetchall():
+        liste.insert(tk.END, f"{row[0]} - {row[2]}")
+    conn.close()    
+
+def kullanici_ekle():
+    ad = entry_ad.get()
+    sifre = entry_sifre.get()
+    yetki =combo_yetki.get()
+
+    if not ad or not sifre or not yetki:
+        messagebox.showwarning("Hata", "Tüm alanlar doldurulmalıdır.")
+        return
+    
+    try:
+        conn = sqlite3.connect("veritabani.db")
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO kullanicilar (kullanici_adi, sifre, yetki) VALUES (?, ?, ?)",(ad, sifre, yetki))
+        conn.commit()
+        conn.close()
+        messagebox.showinfo("Başarılı", "Kullanıcı eklendi.")
+        listele()
+    except sqlite3.IntegrityError:
+        messagebox.showwarning("Hata", "Bu kullanıcı zaten var.")    
+ 
+
+def kullanici_sil():
+    ad = entry_ad.get()
+    if not ad:
+        messagebox.showwarning("Hata", "Silinecek kullanıcı adı girilmelidir.")
+        return
+    
+    conn = sqlite3.connect("veritabani.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM kullanicilar WHERE kullanici_adi=?", (ad,))
+    if cursor.rowcount == 0:
+        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
+    else:
+        messagebox.showinfo("Başarılı", "kullanıcı silindi.")
+    conn.commit()
+    conn.close()
+    listele()         
+
+def kullanici_guncelle():
+    ad = entry_ad.get()
+    sifre = entry_sifre.get()
+    yetki = combo_yetki.get()
+
+    if not ad or not sifre or not yetki:
+        messagebox.showwarning("Hata","Tüm alanlar doldurulmalıdır.")
+        return
+
+    conn = sqlite3.connect("veritabani.db")
+    cursor = conn.cursor()
+    cursor.execute("UPDATE kullanicilar SET sifre=?, yetki=? WHERE kullanici_adi=?",(sifre, yetki ,ad))
+    if cursor.rowcount == 0:
+        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
+    else:
+        messagebox.showinfo("Başarılı", "Kullanıcı güncellendi.")
+    conn.commit()
+    conn.close()
+    listele()    
 
 
 if __name__ == "__main__":
