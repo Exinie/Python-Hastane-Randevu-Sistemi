@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from veritabani_kurulumu import Veritabani
 from oturum_islemleri import hasta_kayit_et, doktor_oturum_ac, hasta_oturum_ac, oturumu_baslat
-from doktor_islemleri import doktor_recete_yaz
+from doktor_islemleri import doktor_recete_paneli
 import sqlite3
 
 entry_ad = None
