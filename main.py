@@ -215,7 +215,7 @@ def frm_doktor_paneli(oturum):
 
     # Olaylar
     def btn_retece_yaz_click():
-        doktor_recete_yaz(oturum)
+        doktor_recete_paneli(oturum)
             
     # Başlık    
     lbl = tk.Label(doktor_paneli_pencere, text="Doktor Paneli", font=("Arial", 14))
