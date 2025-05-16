@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from veritabani_kurulumu import veritabanini_kur
+from veritabani_kurulumu import Veritabani
 from oturum_islemleri import hasta_kayit_et, doktor_oturum_ac, hasta_oturum_ac, oturumu_baslat
 from doktor_islemleri import doktor_recete_yaz
 import sqlite3
@@ -14,7 +14,7 @@ pencere = None
 def main():
 
     # Program başlangıcında veritabanı kurulumunu çağır.
-    veritabanini_kur()
+    Veritabani()
 
 # Ana pencere oluşumu
     ana_pencere = tk.Tk()
