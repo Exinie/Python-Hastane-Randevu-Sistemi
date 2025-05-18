@@ -14,9 +14,8 @@ class Veritabani:
         self._hastalar_tablosu()
         self._yoneticiler_tablosu()
         self._randevular_tablosu()
-        self._kullanicilar_tablosu()
 
-        self.yonetici_ekle('yonetici', 'yonetici000', 'ful yetki')
+        self.yonetici_ekle('admin', '123')
 
         print("veritabanı oluşturuldu ya da hasar görmüşse onarılmıştır.")
 
@@ -54,22 +53,16 @@ class Veritabani:
         CREATE TABLE IF NOT EXISTS YONETICILER (
             yonetici_id INTEGER PRIMARY KEY AUTOINCREMENT,
             kullanici_adi TEXT NOT NULL UNIQUE,
-            sifre TEXT NOT NULL,
-            yetki TEXT NOT NULL    
+            sifre TEXT NOT NULL   
         )
         ''')
-        # yetki sütununu ekledim
-        try:
-            self.cursor.execute("ALTER TABLE YONETICILER ADD COLUMN yetki TEXT")
-        except sqlite3.OperationalError:
-            pass
 
-    def yonetici_ekle(self, kullanici_adi, sifre, yetki = 'yonetici'):   
+    def yonetici_ekle(self, kullanici_adi, sifre):   
         """ Yönetici ekleme fonksiyonu"""
         self.cursor.execute('''
-        INSERT OR IGNORE INTO YONETICILER (kullanici_adi, sifre, yetki)
-        VALUES (?, ?, ?)
-        ''', (kullanici_adi, sifre, yetki))
+        INSERT OR IGNORE INTO YONETICILER (kullanici_adi, sifre)
+        VALUES (?, ?)
+        ''', (kullanici_adi, sifre))
         self.conn.commit()
         print(f"{kullanici_adi} isimli yönetici eklendi.")    
 
@@ -86,15 +79,6 @@ class Veritabani:
             FOREIGN KEY (doktor_id) REFERENCES Doktorlar(doktor_id)
         )
         ''')
-    
-    def _kullanicilar_tablosu(self):    
-        self.cursor.execute("""
-        CREATE TABLE IF NOT EXISTS kullanicilar (
-            kullanici_adi TEXT PRIMARY KEY,
-            sifre TEXT,
-            yetki TEXT              
-        )         
-        """)
 
         # Burda her şey commitlenip kaydedildi, ardından veritabanı bağlantısı kapatıldı
     def commit_kapat(self):
