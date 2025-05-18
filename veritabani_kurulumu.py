@@ -57,14 +57,19 @@ class Veritabani:
         )
         ''')
 
-    def yonetici_ekle(self, kullanici_adi, sifre):   
-        """ Yönetici ekleme fonksiyonu"""
+    def yonetici_ekle(self, kullanici_adi, sifre):
+        """ Yönetici ekleme fonksiyonu (manuel kontrol) """
+        self.cursor.execute('SELECT * FROM YONETICILER WHERE kullanici_adi = ?', (kullanici_adi,))
+        if self.cursor.fetchone():
+            print(f"{kullanici_adi} zaten mevcut, eklenmedi.")
+            return
+
         self.cursor.execute('''
-        INSERT OR IGNORE INTO YONETICILER (kullanici_adi, sifre)
-        VALUES (?, ?)
+            INSERT INTO YONETICILER (kullanici_adi, sifre)
+            VALUES (?, ?)
         ''', (kullanici_adi, sifre))
         self.conn.commit()
-        print(f"{kullanici_adi} isimli yönetici eklendi.")    
+        print(f"{kullanici_adi} isimli yönetici eklendi.")
 
     def _randevular_tablosu(self):
         self.cursor.execute('''
