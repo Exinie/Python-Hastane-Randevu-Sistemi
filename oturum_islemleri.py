@@ -137,3 +137,31 @@ def doktor_oturum_ac(tc_no, sifre):
         messagebox.showwarning("Uyarı", "Yanlış TC kimlik numarası veya şifre.")
         return
 # End Doktor oturum açma fonksiyonu
+
+# Yönetici oturum açma fonksiyonu
+def yonetici_oturum_ac(kullanici_adi, sifre):
+
+    if not kullanici_adi.strip() or not sifre.strip():
+        messagebox.showwarning("Uyarı", "Lütfen tüm alanları doldurunuz.")
+        return
+
+    try:
+        conn = sqlite3.connect("veritabani.db")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT * FROM YONETICILER WHERE kullanici_adi = ? AND sifre = ? LIMIT 1;
+            ''', (kullanici_adi, sifre))
+        
+        giris_basarili_kullanici_bilgisi = cursor.fetchone()
+        conn.close()
+
+        oturum = oturumu_baslat(giris_basarili_kullanici_bilgisi, "yonetici")
+        messagebox.showinfo("Bilgi", "Hoş geldiniz! " + oturum["kullanici_adi"])
+        
+        return oturum
+    except:
+        messagebox.showwarning("Uyarı", "Yanlış kullanıcı adı veya şifre girdiniz!")
+        return
+# End Yönetici oturum açma fonksiyonu
