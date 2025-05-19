@@ -30,7 +30,7 @@ def hasta_tc_kayitli_mi(tc_no):
 
     cursor.execute('''
         SELECT tc_no FROM HASTALAR WHERE tc_no = ? LIMIT 1;
-    ''', (tc_no))
+    ''', (tc_no,))
     
     sonuc = cursor.fetchone()
     conn.close()

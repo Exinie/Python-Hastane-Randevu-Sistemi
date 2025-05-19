@@ -3,13 +3,8 @@ from tkinter import ttk, messagebox
 from veritabani_kurulumu import Veritabani
 from oturum_islemleri import hasta_kayit_et, doktor_oturum_ac, hasta_oturum_ac, oturumu_baslat
 from doktor_islemleri import doktor_recete_paneli
-import sqlite3
 
-entry_ad = None
-entry_sifre = None
-combo_yetki = None
-liste = None
-pencere = None
+ana_pencere = tk.Tk()
 
 def main():
 
@@ -17,7 +12,6 @@ def main():
     Veritabani()
 
 # Ana pencere oluşumu
-    ana_pencere = tk.Tk()
     ana_pencere.title("")
     ana_pencere.geometry("300x300")
 
@@ -53,7 +47,7 @@ def main():
     btnDoktorGirisi = tk.Button(ana_pencere, text="Doktor Girişi", width=20, command=btn_doktor_giris_click)
     btnDoktorGirisi.pack(pady=5)
 
-    btnYoneticiGirisi = tk.Button(ana_pencere, text="Yönetici Girişi", width=20, command=frm_yonetici_paneli)
+    btnYoneticiGirisi = tk.Button(ana_pencere, text="Yönetici Girişi", width=20, command=btn_yonetici_giris_click)
     btnYoneticiGirisi.pack(pady=5)
 
     btnCikis = tk.Button(ana_pencere, text="Çıkış", width=20, command=ana_pencere.quit)
@@ -81,7 +75,11 @@ def frm_hasta_kayit():
             frm_hasta_giris()
         else:
             pass
-          
+
+    def btn_geri_don_click():
+        hasta_kayit_pencere.destroy()
+        ana_pencere.deiconify()
+
     # Başlık
     lbl = tk.Label(hasta_kayit_pencere, text="Hasta Kayıt", font=("Arial", 14))
     lbl.pack()
@@ -106,6 +104,7 @@ def frm_hasta_kayit():
     entry_sifre.pack()
     
     tk.Button(hasta_kayit_pencere, text="Kayıt Ol", width=15, command=btn_kayit_ol_click).pack(pady=10)
+    tk.Button(hasta_kayit_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Hasta kayıt penceresi oluşumu
 
 def frm_hasta_giris():
@@ -125,12 +124,17 @@ def frm_hasta_giris():
             frm_hasta_paneli(oturum)
         else:
             messagebox.showwarning("Uyarı", "Kullanıcı adı veya şifreniz yanlış")
-          
+    
+    def btn_geri_don_click():
+        hasta_girisi_pencere.destroy()
+        ana_pencere.deiconify()
+
+    
 
     # Başlık
     lbl = tk.Label(hasta_girisi_pencere, text="Sistem Girişi", font=("Arial", 14))
     lbl.pack()
-    lbl1 = tk.Label(hasta_girisi_pencere, text="Hasta veya doktor giriş bilgilerinizi giriniz", font=("Arial", 12))
+    lbl1 = tk.Label(hasta_girisi_pencere, text="Hasta giriş bilgilerinizi giriniz", font=("Arial", 12))
     lbl1.pack(pady=20)
 
      # Form alanları
@@ -144,6 +148,7 @@ def frm_hasta_giris():
     entry_sifre.pack()
     
     tk.Button(hasta_girisi_pencere, text="Giriş Yap", width=15, command=btn_giris_yap_click).pack(pady=10)
+    tk.Button(hasta_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Hasta girişi penceresi oluşumu
 
 def frm_hasta_paneli(oturum):
@@ -166,7 +171,7 @@ def frm_hasta_paneli(oturum):
     lbl1 = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz " + oturum["ad"] + " " + oturum["soyad"], font=("Arial", 12))
     lbl1.pack(pady=20)
 
-    lbl2 = tk.Label(hasta_paneli_pencere, text="Senin rolün: " + oturum["kullanici_tipi"], font=("Arial", 12))
+    lbl2 = tk.Label(hasta_paneli_pencere, text="Kullanıcı tipiniz: " + oturum["kullanici_tipi"], font=("Arial", 12))
     lbl2.pack(pady=20)
 
     tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", width=15, command=btn_randevu_al_click).pack(pady=10)
@@ -190,7 +195,12 @@ def frm_doktor_giris():
         else:
             pass
     
-      
+    def btn_geri_don_click():
+        doktor_girisi_pencere.destroy()
+        ana_pencere.deiconify()
+
+    
+
     # Başlık      
     lbl = tk.Label(doktor_girisi_pencere, text="Doktor Girişi", font=("Arial", 14))
     lbl.pack(pady=20)
@@ -205,6 +215,7 @@ def frm_doktor_giris():
     entry_sifre.pack(pady=5)
             
     tk.Button(doktor_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giriş_yap_click).pack(pady=10)
+    tk.Button(doktor_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Hasta kayıt penceresi oluşumu
 
 def frm_doktor_paneli(oturum):
@@ -224,119 +235,38 @@ def frm_doktor_paneli(oturum):
     lbl1 = tk.Label(doktor_paneli_pencere, text="Hoş geldiniz " + oturum["ad"] + " " + oturum["soyad"], font=("Arial", 12))
     lbl1.pack(pady=20)
 
-    lbl2 = tk.Label(doktor_paneli_pencere, text="Senin rolün: " + oturum["kullanici_tipi"], font=("Arial", 12))
+    lbl2 = tk.Label(doktor_paneli_pencere, text="Kullanıcı tipiniz: " + oturum["kullanici_tipi"], font=("Arial", 12))
     lbl2.pack(pady=20)
 
     tk.Button(doktor_paneli_pencere, text="Reçete Yaz", width=15, command=btn_retece_yaz_click).pack(pady=10)
 # End Doktor paneli penceresi oluşumu
 
-
-
-
-#yonetıcı paneli penceresi oluşumu
+# Yönetici paneli penceresi oluşumu
 def frm_yonetici_paneli():
-    global entry_ad, entry_sifre, combo_yetki, liste, pencere
+    yonetici_paneli_pencere = tk.Toplevel()
+    yonetici_paneli_pencere.title("Yönetici Paneli")
+    yonetici_paneli_pencere.geometry("350x450")
 
-
-    pencere = tk.Toplevel()
-    pencere.title("Yönetici Kullanıcı Paneli")
-    pencere.geometry("350x450")
-
-    tk.Label(pencere, text="Kullanıcı Adı:").pack()
-    entry_ad = tk.Entry(pencere)
-    entry_ad.pack()
-
-    tk.Label(pencere, text="şifre:").pack()
-    entry_sifre = tk.Entry(pencere, show="*")
-    entry_sifre.pack()
-
-    tk.Label(pencere, text="yetki:").pack()
-    combo_yetki = ttk.Combobox(pencere, values=["yönetici", "doktor", "hasta"])
-    combo_yetki.pack()
-
+    # Olaylar
+    def btn_hastalari_yonet_click():
+        pass
     
+    def btn_doktorlari_yonet_click():
+        pass
 
-    tk.Button(pencere, text="Ekle", command=kullanici_ekle).pack(pady=2)
-    tk.Button(pencere, text="sil", command=kullanici_sil).pack(pady=2)
-    tk.Button(pencere, text="Güncelle", command=kullanici_guncelle).pack(pady=2)
-    tk.Button(pencere, text="Listele", command=listele).pack(pady=2)
+    def btn_yoneticileri_yonet_click():
+        pass
 
+    def btn_cikis_yap_click():
+        pass
 
-    liste = tk.Listbox(pencere, width=40)
+    tk.Button(yonetici_paneli_pencere, text="Hastaları Yönet", command=btn_hastalari_yonet_click).pack(pady=2)
+    tk.Button(yonetici_paneli_pencere, text="Doktorları Yönet", command=btn_doktorlari_yonet_click).pack(pady=2)
+    tk.Button(yonetici_paneli_pencere, text="Yöneticileri Yönet", command=btn_yoneticileri_yonet_click).pack(pady=2)
+    tk.Button(yonetici_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
+
+    liste = tk.Listbox(yonetici_paneli_pencere, width=40)
     liste.pack(pady=10)
-
-
-    listele()  
-
-
-
-def listele():
-    liste.delete(0, tk.END)
-    conn = sqlite3.connect("veritabani.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * from kullanicilar")
-    for row in cursor.fetchall():
-        liste.insert(tk.END, f"{row[0]} - {row[2]}")
-    conn.close()    
-
-def kullanici_ekle():
-    ad = entry_ad.get()
-    sifre = entry_sifre.get()
-    yetki =combo_yetki.get()
-
-    if not ad or not sifre or not yetki:
-        messagebox.showwarning("Hata", "Tüm alanlar doldurulmalıdır.")
-        return
-    
-    try:
-        conn = sqlite3.connect("veritabani.db")
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO kullanicilar (kullanici_adi, sifre, yetki) VALUES (?, ?, ?)",(ad, sifre, yetki))
-        conn.commit()
-        conn.close()
-        messagebox.showinfo("Başarılı", "Kullanıcı eklendi.")
-        listele()
-    except sqlite3.IntegrityError:
-        messagebox.showwarning("Hata", "Bu kullanıcı zaten var.")    
- 
-
-def kullanici_sil():
-    ad = entry_ad.get()
-    if not ad:
-        messagebox.showwarning("Hata", "Silinecek kullanıcı adı girilmelidir.")
-        return
-    
-    conn = sqlite3.connect("veritabani.db")
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM kullanicilar WHERE kullanici_adi=?", (ad,))
-    if cursor.rowcount == 0:
-        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
-    else:
-        messagebox.showinfo("Başarılı", "kullanıcı silindi.")
-    conn.commit()
-    conn.close()
-    listele()         
-
-def kullanici_guncelle():
-    ad = entry_ad.get()
-    sifre = entry_sifre.get()
-    yetki = combo_yetki.get()
-
-    if not ad or not sifre or not yetki:
-        messagebox.showwarning("Hata","Tüm alanlar doldurulmalıdır.")
-        return
-
-    conn = sqlite3.connect("veritabani.db")
-    cursor = conn.cursor()
-    cursor.execute("UPDATE kullanicilar SET sifre=?, yetki=? WHERE kullanici_adi=?",(sifre, yetki ,ad))
-    if cursor.rowcount == 0:
-        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
-    else:
-        messagebox.showinfo("Başarılı", "Kullanıcı güncellendi.")
-    conn.commit()
-    conn.close()
-    listele()    
-
 
 if __name__ == "__main__":
     main()
