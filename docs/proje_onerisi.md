@@ -39,7 +39,7 @@ Hastaneler için randevu / otomasyon sistemi.
 | Ad - Soyad | Sorumlu Olduğu Bölüm / Görev       |
 |----------------------|------------------------------------|
 | Erdem Ural           | Kullanıcı işlemleri fonksiyonları, Tkinter arayüz kodlaması |
-| Ege Yardımcı           | Veri tabanı, Vatandaş kullanıcılarının işlemlerinin fonksiyonları |
+| Ege Yardımcı           | Veri tabanı, Hasta kullanıcılarının işlemlerinin fonksiyonları |
 | Yiğit Yıldız           | Tkinter arayüz kodlaması, Doktor kullanıcılarının işlemlerinin fonksiyonları |
 | Nuh Mehmet Turhan           | Tkinter arayüz kodlaması, Yönetici kullanıcılarının işlemlerinin fonksiyonları |
 
@@ -98,17 +98,3 @@ Kullanıcı programı çalıştıracak, daha önceden oluşturduğu kullanıcı 
 - Kullanıcının sisteme dosya yükleyebilmesi, dosya kaydedebilmesi veya veri çıktısı alabilmesi. (Örneğin: PDF/CSV rapor oluşturma)
 - Admin kullanıcılarının, diğer kullanıcıların yetkilerini değiştirebileceği basit bir yönetim paneli oluşturulması.
 - Sistemde oturum açan kullanıcıların tüm işlemlerinin ve bu işlemlere ait tarih/saat bilgilerinin kaydedilmesi.
-  
-
-
----
-
-  
-
-# 📌 Not:
-
-- Bu dosya **docs/proje_onerisi.md** yolunda saklanmalıdır ardından bu taslak dosyası silinmelidir.
-
-- Belirtilen tüm başlıklar eksiksiz doldurulmalıdır.
-
-- Gereklilikler yüzeysel değil, projenize özgü ve uygulanabilir şekilde açıklanmalıdır.
