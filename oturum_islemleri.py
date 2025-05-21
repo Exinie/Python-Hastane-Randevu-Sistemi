@@ -1,167 +1,168 @@
-import tkinter as tk
-from tkinter import messagebox
 import sqlite3
 
-'''
-Bu dosyada oturum (session) işlemleri, giriş veya kayıt işlemleri gerçekleştirilir.
-'''
+class OturumIslemleri:
+    # __init__ metodu nesne oluşturulduğunda çağırılır. self = nesne (?)
+    def __init__(self):
+        self.veritabani_dosyasi = "veritabani.db"
+        self.oturum = {}
 
-# Kullanıcı oturumu başlatma fonksiyonu
-'''
-İlgili giriş yapma işleminde ki kontrollerde bir sorun çıkmazsa veritabanından kullanıcı bilgileri çekilir ve bu fonksiyona gönderilir
-ardından bu dosyada global olarak tanımlanan oturum değişkenine dictionary (sözlük) olarak aktarılır
+    '''
+     def veritabani_baglantisi(self):
+        sqlite3.connect(self.veritabani_dosyasi)
+    '''
 
-Bu oturum değişkeni diğer dosyalar tarafından okunup kullanıcının giriş yapılı olup olmadığı denetlenebilir
-veya giriş yapılı olan kullanıcının rolleri okunup ona göre işlemler yapılabilir
-'''
-
-def oturumu_baslat(kullanici_bilgisi, kullanici_tipi):
-    oturum = dict(kullanici_bilgisi)
-    oturum["kullanici_tipi"] = kullanici_tipi
-    print(f"[+] Oturum başlatıldı: {oturum}")
-    return oturum
-# End Kullanıcı oturumu başlatma fonksiyonu
-
-# TC kimlik numarasına göre sistemde kayıtlı Hasta kullanıcısı var mı kontrolünü yapan fonksiyon
-def hasta_tc_kayitli_mi(tc_no):
-
-    conn = sqlite3.connect("veritabani.db")
-    cursor = conn.cursor()
-
-    cursor.execute('''
-        SELECT tc_no FROM HASTALAR WHERE tc_no = ? LIMIT 1;
-    ''', (tc_no,))
+    '''
     
-    sonuc = cursor.fetchone()
-    conn.close()
-
-    if sonuc:
-        return True
-    else:
-        return False
-# End TC kimlik numarasına göre sistemde kayıtlı Hasta kullanıcısı var mı kontrolünü yapan fonksiyon
-
-# Hasta kayıt etme fonksiyonu
-def hasta_kayit_et(tc_no, sifre, ad, soyad):
-
-    if not tc_no.strip() or not sifre.strip() or not ad.strip() or not soyad.strip():
-        messagebox.showwarning("Uyarı", "Lütfen tüm alanları doldurunuz.")
-        return False
-    
-    if len(tc_no) != 11 or not tc_no.isdigit():
-        messagebox.showwarning("Uyarı", "Geçersiz TC kimlik numarası formatı.")
-        return False
-
-    if hasta_tc_kayitli_mi(tc_no):
-        messagebox.showwarning("Uyarı", "Girilen TC kimlik numarası zaten kayıtlı.")
-        return False
-    
-    try:
-        conn = sqlite3.connect("veritabani.db")
-        cursor = conn.cursor()
-
-        cursor.execute('''
-            INSERT INTO HASTALAR (tc_no, sifre, ad, soyad) VALUES (?, ?, ?, ?);
-        ''', (tc_no, sifre, ad, soyad))
-
-        conn.commit()
-        conn.close()
-    
-        messagebox.showinfo("Bilgi", "Kayıt başarılı. Giriş sayfasına aktarılıyorsunuz.")
-        return True
-    except:
-        messagebox.showwarning("Uyarı", "Veritabanı hatası")
-        return False
-# End Hasta kayıt etme fonksiyonu
-
-# Hasta oturum açma fonksiyonu
-def hasta_oturum_ac(tc_no, sifre):
-    
-    if not tc_no.strip() or not sifre.strip():
-        messagebox.showwarning("Uyarı", "Lütfen tüm alanları doldurunuz.")
-        return
-    
-    if len(tc_no) != 11 or not tc_no.isdigit():
-        messagebox.showwarning("Uyarı", "Geçersiz TC kimlik numarası formatı.")
-        return
-
-    try:
-        conn = sqlite3.connect("veritabani.db")
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-
-        cursor.execute('''
-            SELECT * FROM HASTALAR WHERE tc_no = ? AND sifre = ? LIMIT 1;
-        ''', (tc_no, sifre))
-
-        girisi_basarili_kullanici_bilgisi = cursor.fetchone()
-        conn.close()
-
-        oturum = oturumu_baslat(girisi_basarili_kullanici_bilgisi, "hasta")
-        messagebox.showinfo("Bilgi", "Hoş geldiniz! " + oturum["ad"] + " " + oturum["soyad"])
-
-        return oturum
-    except:
-        messagebox.showwarning("Uyarı", "Yanlış TC kimlik numarası veya şifre.")
-        return
-# End Hasta oturum açma fonksiyonu
-
-# Doktor oturum açma fonksiyonu
-def doktor_oturum_ac(tc_no, sifre):
-
-    if not tc_no.strip() or not sifre.strip():
-        messagebox.showwarning("Uyarı", "Lütfen tüm alanları doldurunuz.")
-        return
-    
-    if len(tc_no) != 11 or not tc_no.isdigit():
-        messagebox.showwarning("Uyarı", "Geçersiz TC kimlik numarası formatı.")
-        return
-    
-    try:
-        conn = sqlite3.connect("veritabani.db")
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-
-        cursor.execute('''
-            SELECT * FROM DOKTORLAR WHERE tc_no = ? AND sifre = ? LIMIT 1;
-        ''', (tc_no, sifre))
-
-        girisi_basarili_kullanici_bilgisi = cursor.fetchone()
-        conn.close()
-
-        oturum = oturumu_baslat(girisi_basarili_kullanici_bilgisi, "doktor")
-        messagebox.showinfo("Bilgi", "Hoş geldiniz! " + oturum["ad"] + " " + oturum["soyad"])
-
-        return oturum
-    except:
-        messagebox.showwarning("Uyarı", "Yanlış TC kimlik numarası veya şifre.")
-        return
-# End Doktor oturum açma fonksiyonu
-
-# Yönetici oturum açma fonksiyonu
-def yonetici_oturum_ac(kullanici_adi, sifre):
-
-    if not kullanici_adi.strip() or not sifre.strip():
-        messagebox.showwarning("Uyarı", "Lütfen tüm alanları doldurunuz.")
-        return
-
-    try:
-        conn = sqlite3.connect("veritabani.db")
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-
-        cursor.execute('''
-            SELECT * FROM YONETICILER WHERE kullanici_adi = ? AND sifre = ? LIMIT 1;
-            ''', (kullanici_adi, sifre))
+    '''
+    def hasta_tc_kayitli_mi(self, tc_no):
         
-        giris_basarili_kullanici_bilgisi = cursor.fetchone()
-        conn.close()
+        try:
+            baglanti = sqlite3.connect(self.veritabani_dosyasi)
+            cursor = baglanti.cursor()
+            cursor.execute("SELECT tc_no FROM HASTALAR WHERE tc_no = ? LIMIT 1;", (tc_no,))
+            sonuc = cursor.fetchone()
+    
+            if sonuc:
+                baglanti.close()
+                return True
+            else:
+                baglanti.close()
+                return False
+        except sqlite3.Error as e:
+            baglanti.close()
+            return f"Veritabanı hatası: {e}"
 
-        oturum = oturumu_baslat(giris_basarili_kullanici_bilgisi, "yonetici")
-        messagebox.showinfo("Bilgi", "Hoş geldiniz! " + oturum["kullanici_adi"])
+    '''
+    
+    '''
+    def hasta_kayit_et(self, tc_no, sifre, ad, soyad):
+
+        kontrol_hatalari = []
+
+        if not tc_no.strip() or not sifre.strip() or not ad.strip() or not soyad.strip():
+            kontrol_hatalari.append("Lütfen tüm alanları doldurunuz.")
+    
+        if len(tc_no) != 11 or not tc_no.isdigit():
+            kontrol_hatalari.append("Geçersiz TC kimlik numarası formatı.")
+
+        sonuc = self.hasta_tc_kayitli_mi(tc_no)
+
+        if not isinstance(sonuc, bool):
+            return sonuc
+        elif sonuc == True:
+            kontrol_hatalari.append("Hasta zaten kayıtlı.")
         
-        return oturum
-    except:
-        messagebox.showwarning("Uyarı", "Yanlış kullanıcı adı veya şifre girdiniz!")
-        return
-# End Yönetici oturum açma fonksiyonu
+        if len(kontrol_hatalari) == 0:
+            try:
+                baglanti = sqlite3.connect(self.veritabani_dosyasi)
+                cursor = baglanti.cursor()
+                cursor.execute("INSERT INTO HASTALAR (tc_no, sifre, ad, soyad) VALUES (?, ?, ?, ?)",
+                    (tc_no, sifre, ad, soyad))
+                baglanti.commit()
+
+                baglanti.close()
+                return True
+            except sqlite3.Error as e:
+                baglanti.close()
+                return f"Veritabanı hatası: {e}"
+        else:
+            return 
+    '''
+    
+    '''
+    def hasta_oturum_ac(self, tc_no, sifre):
+
+        if not tc_no.strip() or not sifre.strip():
+            return("Lütfen tüm alanları doldurunuz.")
+        
+        if len(tc_no) != 11 or not tc_no.isdigit():
+            return("Geçersiz TC kimlik numarası formatı.")
+
+        try:
+            baglanti = sqlite3.connect(self.veritabani_dosyasi)
+            baglanti.row_factory = sqlite3.Row
+            cursor = baglanti.cursor()
+
+            cursor.execute("SELECT * FROM HASTALAR WHERE tc_no = ? AND sifre = ? LIMIT 1;",
+                (tc_no, sifre))
+
+            girisi_basarili_kullanici_bilgisi = cursor.fetchone()
+            baglanti.close()
+
+            if girisi_basarili_kullanici_bilgisi:
+                self.oturum = dict(girisi_basarili_kullanici_bilgisi)
+                self.oturum.update({"kullanici_tipi" : "hasta"})
+                print("Oturum (session) başarıyla oluşturuldu: \n" + self.oturum)
+                baglanti.close()
+                return True
+            else:
+                baglanti.close()
+                return "Yanlış TC kimlik numarası veya şifre."
+        except sqlite3.Error as e:
+            baglanti.close()
+            return f"Veritabanı hatası: {e}"
+
+    '''
+    
+    '''
+    def doktor_oturum_ac(self, tc_no, sifre):
+
+        if not tc_no.strip() or not sifre.strip():
+            return("Lütfen tüm alanları doldurunuz.")
+        
+        if len(tc_no) != 11 or not tc_no.isdigit():
+            return("Geçersiz TC kimlik numarası formatı.")
+
+        try:
+            baglanti = sqlite3.connect(self.veritabani_dosyasi)
+            baglanti.row_factory = sqlite3.Row
+            cursor = baglanti.cursor()
+
+            cursor.execute("SELECT * FROM DOKTORLAR WHERE tc_no = ? AND sifre = ? LIMIT 1;",
+                (tc_no, sifre))
+
+            girisi_basarili_kullanici_bilgisi = cursor.fetchone()
+            baglanti.close()
+
+            if girisi_basarili_kullanici_bilgisi:
+                self.oturum = dict(girisi_basarili_kullanici_bilgisi)
+                self.oturum.update({"kullanici_tipi" : "doktor"})
+                baglanti.close()
+                return True
+            else:
+                baglanti.close()
+                return "Yanlış TC kimlik numarası veya şifre."
+        except sqlite3.Error as e:
+            baglanti.close()
+            return f"Veritabanı hatası: {e}"
+    
+    '''
+    
+    '''
+    def yonetici_oturum_ac(self, kullanici_adi, sifre):
+
+        if not kullanici_adi.strip() or not sifre.strip():
+            return("Lütfen tüm alanları doldurunuz.")
+
+        try:
+            baglanti = sqlite3.connect(self.veritabani_dosyasi)
+            baglanti.row_factory = sqlite3.Row
+            cursor = baglanti.cursor()
+
+            cursor.execute("SELECT * FROM YONETICILER WHERE kullanici_adi = ? AND sifre = ? LIMIT 1;",
+                (kullanici_adi, sifre))
+
+            girisi_basarili_kullanici_bilgisi = cursor.fetchone()
+            baglanti.close()
+
+            if girisi_basarili_kullanici_bilgisi:
+                self.oturum = dict(girisi_basarili_kullanici_bilgisi)
+                self.oturum.update({"kullanici_tipi" : "yonetici"})
+                baglanti.close()
+                return True
+            else:
+                baglanti.close()
+                return "Yanlış kullanıcı adı veya şifre."
+        except sqlite3.Error as e:
+            baglanti.close()
+            return f"Veritabanı hatası: {e}"
