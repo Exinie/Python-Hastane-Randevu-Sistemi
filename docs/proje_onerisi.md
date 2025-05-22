@@ -24,7 +24,7 @@
 
   
 
-Hastaneler için randevu / otomasyon sistemi.
+Hastane randevu / otomasyon sistemi.
 
   
 
@@ -38,10 +38,10 @@ Hastaneler için randevu / otomasyon sistemi.
 
 | Ad - Soyad | Sorumlu Olduğu Bölüm / Görev       |
 |----------------------|------------------------------------|
-| Erdem Ural           | Kullanıcı işlemleri fonksiyonları, Tkinter arayüz kodlaması |
-| Ege Yardımcı           | Veri tabanı, Hasta kullanıcılarının işlemlerinin fonksiyonları |
-| Yiğit Yıldız           | Tkinter arayüz kodlaması, Doktor kullanıcılarının işlemlerinin fonksiyonları |
-| Nuh Mehmet Turhan           | Tkinter arayüz kodlaması, Yönetici kullanıcılarının işlemlerinin fonksiyonları |
+| Erdem Ural           | Oturum ve kullanıcı işlemleri modülü, Tkinter arayüz kodlaması |
+| Ege Yardımcı           | Veri tabanı şeması, Hasta kullanıcılarının işlemlerinin modülü |
+| Yiğit Yıldız           | Tkinter arayüz kodlaması, Doktor kullanıcılarının işlemlerinin modülü |
+| Nuh Mehmet Turhan           | Tkinter arayüz kodlaması, Yönetici kullanıcılarının işlemlerinin modülü |
 
   
 
@@ -58,16 +58,17 @@ Hastaneler için randevu / otomasyon sistemi.
 
 ### 1. Genel Proje Çalışma Sistemi
 
-Kullanıcı program arayüzünden işlemler yapabilecek, menüler arasında görüntülenen penceredeki butonlar veya diğer elemenler üzerinden gezinebilecek ve bu pencerelerdeki elementler üzerinden arkaplandaki API / fonksiyonlar ile veri alışverişi yapacak.
+Kullanıcı program arayüzünden işlemler yapabilecek, menüler arasında görüntülenen penceredeki butonlar veya diğer elemenler üzerinden gezinebilecek ve bu pencerelerdeki elementler üzerinden ilgili modüller / API ler ile iletişime geçip veri alışverişi yapacak.
 
   
 
 ### 2. Veri Tabanı Kullanımı
 
 Kullanılacak veri tabanı SQLite olacaktır. Saklanacak veriler şu şekildedir:\
-Hasta, doktor kullanıcı bilgileri: rolleri, randevuları tahlil sonuçları, bilinen rahatsızlıklar / alerjiler.\
-yönetici kullanıcı bilgileri.\
-Log kayıtları.
+Hasta kullanıcı bilgileri: tc_no, sifre, ad, soyad, bilinen rahatsızlıklar.\
+Doktor kullanıcı bilgileri: tc_no, sifre, ad, soyad, uzmanlik.\
+Yönetici kullanıcı bilgileri: kullanici_adi, sifre.\
+Log kayıtları: kullanici_id, kullanici_tipi, islem, tarih
 
   
 
@@ -81,13 +82,13 @@ Yönetici : Tüm kullanıcıların bilgilerini, randevularını, yazılan ilaçl
 
 ### 4. İşlem Kayıtları
 
-Kullanıcıdan program arayüzünden yapılan işlem sonucu gelen veriler arka yüzde işlenecek ve görevine göre veri tabanına kaydı gerçekleştirilecek.
+Kullanıcı tarafından programın arayüzünden yapılan işlemler sonucu ilgili modüllere iletilen veriler ilgili modülde kontrol edilip işlenecek ve veritabanına kaydı gerçekleştirilecek.
   
 
 
 ### 5. Raporlama
 
-Kullanıcı programı çalıştıracak, daha önceden oluşturduğu kullanıcı bilgilerini girerek sisteme giriş yapacak, kullanıcı rolüne bağlı olarak tahlil sonuçlarını görüntüleyip indirme veya log kayıtlarını görüntüleyip indirme gibi işlemleri gerçekleştirecek ve bu şekilde rapor edinmiş olacak.
+Kullanıcı programı çalıştıracak, daha önceden oluşturduğu kullanıcının bilgileri ile sisteme giriş yapacak, kullanıcı tipine bağlı olarak tahlil sonuçlarını görüntüleyip indirme veya log kayıtlarını görüntüleyip indirme gibi işlemleri gerçekleştirebilecek ve bu şekilde rapor edinmiş olacak.
 
 
 ### 6. Grup Çalışması Kriterleri
