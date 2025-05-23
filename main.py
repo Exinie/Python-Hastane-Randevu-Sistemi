@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from tkcalendar import DateEntry
+from hasta_islemleri import HastaIslemleri
 from veritabani_kurulumu import Veritabani
 from oturum_islemleri import OturumIslemleri
 # from doktor_islemleri import doktor_recete_paneli / Sınıfa çevirildiğinde import işlemini yeniden yazarsın.
 
 veritabani_kurulumu_objesi = Veritabani()
 oturum_objesi = OturumIslemleri()
+hasta_objesi = HastaIslemleri()
 
 ''' Ana pencere fonksiyonuna diğer pencerelerden erişilebilmesi için tüm fonskiyonlardan ayrı olarak tanımlanmıştır.  '''
 ana_pencere = tk.Tk()
@@ -92,6 +95,8 @@ def frm_hasta_kayit():
         hasta_kayit_pencere.destroy() # Hasta kayıt penceresini sonlandırır
         ana_pencere.deiconify() # Ana pencereyi geri görünür yapar
 
+    
+
     ''' Üst başlık metni '''
     lbl_baslik = tk.Label(hasta_kayit_pencere, text="Hasta Kayıt", font=("Arial", 14))
     lbl_baslik.pack()
@@ -175,10 +180,17 @@ def frm_hasta_paneli():
     hasta_paneli_pencere.title("Hasta Paneli")
     hasta_paneli_pencere.geometry("300x350")
 
+    hasta_id = oturum_objesi.oturum["hasta_id"]
+
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
     def btn_randevu_al_click():
-        pass
+        hasta_paneli_pencere.destroy()
+        frm_hasta_randevu_al()
 
+
+    def randevu_listele():
+        pass
+        
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
             hasta_paneli_pencere.destroy()
@@ -192,11 +204,82 @@ def frm_hasta_paneli():
     lbl_hos_geldiniz_metni.pack(pady=20)
 
     ''' Metin girişleri ve işlem butonları vs '''
-
-
     tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", width=15, command=btn_randevu_al_click).pack(pady=10)
     tk.Button(hasta_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
 # End Hasta paneli
+
+# Hasta randevu oluşturma penceresi
+def frm_hasta_randevu_al():
+
+    ''' Hasta randevu al pencere özellikleri '''
+    hasta_randevu_al_pencere = tk.Toplevel()
+    hasta_randevu_al_pencere.title("Randevu Al")
+    hasta_randevu_al_pencere.geometry("300x350")
+
+
+    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    def btn_geri_don_click():
+        hasta_randevu_al_pencere.destroy()
+        frm_hasta_paneli()
+
+            
+    ''' Üst başlık metni '''
+    lbl_ana_baslik = tk.Label(hasta_randevu_al_pencere, text="Randevu Al", font=("Arial", 14))
+    lbl_ana_baslik.pack()
+
+    # Örnek doktor listesi
+    doktor_listesi = hasta_objesi.doktor_listele()
+
+    # ID ve AdSoyad eşleşmesi (basit sözlük)
+    adsoyad_to_id = {f"{d[1]} {d[2]}": d[0] for d in doktor_listesi}
+    doktor_adlari = list(adsoyad_to_id.keys())
+    
+
+    def btn_randevu_al_click():
+        giris_yapilmis_hasta_id = oturum_objesi.oturum["hasta_id"]
+        secilen_adsoyad = combobox.get()
+        doktor_id = adsoyad_to_id.get(secilen_adsoyad)
+        secilen_tarih = tarih_secici.get_date()
+        saat_dakika = saat_spin.get() + ":" + dakika_spin.get()
+        sikayet = entry_sikayet.get()
+
+        gelen_cevap = hasta_objesi.randevu_al(giris_yapilmis_hasta_id, doktor_id, secilen_tarih, saat_dakika, sikayet)
+
+        if gelen_cevap == True:
+            messagebox.showinfo("Bilgi", "Randevunuz başarıyla alınmıştır.")
+            hasta_randevu_al_pencere.destroy()
+            frm_hasta_paneli()
+        elif gelen_cevap == "dolu":
+            messagebox.showwarning("Uyarı", "Seçtiğiniz tarihte doktorunuz meşguldür.")
+        
+            
+    ''' Metin girişleri ve işlem butonları vs '''
+    tk.Label(hasta_randevu_al_pencere, text="Doktor tercih ediniz:").pack()
+    combobox = ttk.Combobox(hasta_randevu_al_pencere, values=doktor_adlari, state="readonly")
+    combobox.set("Doktor Seçin")
+    combobox.pack(pady=5)
+
+    tk.Label(hasta_randevu_al_pencere, text="Tarih:").pack()
+    tarih_secici = DateEntry(hasta_randevu_al_pencere, date_pattern = "dd-mm-yyyy")
+    tarih_secici.pack(pady=5)
+
+    tk.Label(hasta_randevu_al_pencere, text="Saat:").pack()
+    saat_spin = tk.Spinbox(hasta_randevu_al_pencere, from_=0, to=23, width=5, format="%02.0f")
+    saat_spin.pack()
+
+    tk.Label(hasta_randevu_al_pencere, text="Dakika:").pack()
+    dakika_spin = tk.Spinbox(hasta_randevu_al_pencere, from_=0, to=59, width=5, format="%02.0f")
+    dakika_spin.pack(pady=5)
+
+    tk.Label(hasta_randevu_al_pencere, text="Şikayetiniz:").pack()
+    entry_sikayet = tk.Entry(hasta_randevu_al_pencere)
+    entry_sikayet.pack()
+
+    btn = tk.Button(hasta_randevu_al_pencere, text = "Randevu Al", command=btn_randevu_al_click)
+    btn.pack()
+
+    tk.Button(hasta_randevu_al_pencere, text = "Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)             
+# End Hasta randevu oluşturma penceresi
 
 # Doktor girişi penceresi
 def frm_doktor_giris():

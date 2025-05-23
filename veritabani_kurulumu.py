@@ -7,6 +7,7 @@ class Veritabani:
         self.conn = sqlite3.connect(self.db_adi)
         self.cursor = self.conn.cursor()
         self.veritabanini_kur()
+        
 
     def veritabanini_kur(self):
         """Bu fonksiyon veritabanı boşsa gerekli tabloları oluşturur, ya da eksik tablo varsa onarımı gerçekleştirir."""
@@ -79,18 +80,17 @@ class Veritabani:
             doktor_id INTEGER,
             tarih TEXT NOT NULL,
             saat TEXT NOT NULL,
+            sikayet TEXT,                
             durum TEXT DEFAULT 'Incelenmesi Bekleniyor',
-            FOREIGN KEY (hasta_id) REFERENCES Hastalar(hasta_id),
-            FOREIGN KEY (doktor_id) REFERENCES Doktorlar(doktor_id)
+            FOREIGN KEY (hasta_id) REFERENCES HASTALAR(hasta_id),
+            FOREIGN KEY (doktor_id) REFERENCES DOKTORLAR(doktor_id)
         )
         ''')
 
         # Burda her şey commitlenip kaydedildi, ardından veritabanı bağlantısı kapatıldı
-    def commit_kapat(self):
-        self.conn.commit()
-        self.conn.close()
+    #def commit_kapat(self):
+        #self.conn.commit()
+        #self.conn.close()
 
-        print("Veritabanı bağlantısı kapatıldı.")
-        
-veritabani = Veritabani()
-veritabani.commit_kapat()
+        #print("Veritabanı bağlantısı kapatıldı.")
+    
