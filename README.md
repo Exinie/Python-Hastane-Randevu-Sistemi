@@ -1,2 +1,2 @@
 Gerekli kütüpheneler:
-sqlite3 tk passlib
+sqlite3 tk tkcalendar
