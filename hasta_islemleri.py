@@ -56,15 +56,11 @@ class HastaIslemleri:
             cursor = conn.cursor()
 
             cursor.execute('''
-                SELECT R.randevu_id, R.tarih, R.saat, R.durum, D.ad || ' ' || D.soyad AS doktor_adi
-                FROM RANDEVULAR R
-                JOIN DOKTORLAR D ON R.doktor_id = D.doktor_id
-                WHERE R.hasta_id = ?
-                ORDER BY R.tarih, R.saat
+                SELECT tarih, saat, sikayet, doktor_id FROM RANDEVULAR WHERE hasta_id = ?
             ''', (hasta_id,))
-        
-            randevular = cursor.fetchall()
-            return randevular
+
+            randevu_listesi = cursor.fetchall()
+            return randevu_listesi
 
         except Exception as hata:
             return f"Hata oluştu: {str(hata)}"

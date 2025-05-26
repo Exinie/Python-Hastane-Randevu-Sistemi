@@ -182,14 +182,25 @@ def frm_hasta_paneli():
 
     hasta_id = oturum_objesi.oturum["hasta_id"]
 
+    randevu_listesi = hasta_objesi.randevu_listele(hasta_id)   
+    
+    liste_etiket = tk.Label(hasta_paneli_pencere, text = "Randevularınız:")
+    liste_etiket.pack()
+
+    liste_basligi_label = tk.Label(hasta_paneli_pencere, text = f"{'Tarih':<12}     {'Saat':<8}     {'Şikayet':<25}     {'Doktor ID':<8}", font = ("Arial", 9, "bold"))
+    liste_basligi_label.pack() 
+
+    listeislemi = tk.Listbox(hasta_paneli_pencere, width = 50, height = 10)
+    for randevu in randevu_listesi:
+        listeislemi.insert(tk.END, f"{randevu[0]} - {randevu[1]} - {randevu[2]} - {randevu[3]}")
+    listeislemi.pack(pady = 5)
+    
+
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
     def btn_randevu_al_click():
         hasta_paneli_pencere.destroy()
         frm_hasta_randevu_al()
 
-
-    def randevu_listele():
-        pass
         
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
