@@ -345,21 +345,23 @@ def frm_doktor_giris():
 def frm_doktor_paneli():
     doktor_paneli_pencere = tk.Tk()
     doktor_paneli_pencere.title("Doktor Paneli")
-    doktor_paneli_pencere.geometry("700x400")
+    doktor_paneli_pencere.geometry("1000x400")
     
     #Treeview Tablo
-    tree = ttk.Treeview(doktor_paneli_pencere, columns=("id", "hasta", "tarih", "saat", "durum"), show="headings")
-    for col in ("id", "hasta", "tarih", "saat", "durum"):
+    tree = ttk.Treeview(doktor_paneli_pencere, columns=("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"), show="headings")
+    for col in ("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"):
         tree.heading(col, text=col.capitalize())
         tree.column(col, width=100)
     tree.pack(fill="both", expand=True)
     
+    giris_yapili_doktor_id = oturum_objesi.oturum["doktor_id"]
+
     def randevulari_yukle():
         tree.delete(*tree.get_children())
-        randevular = doktor_objesi.randevulari_listele()
+        randevular = doktor_objesi.randevulari_listele(giris_yapili_doktor_id)
         if isinstance(randevular, list):
-            for r in randevular:
-                tree.insert("", "end", values=r)
+            for randevu in randevular:
+                tree.insert("", "end", values=randevu)
         else:
             messagebox.showerror("Hata", "Veritabanı hatası oluştu.")
             
@@ -385,14 +387,14 @@ def frm_doktor_paneli():
     def btn_randevu_onayla_click():
         randevu_id = secili_randevu_id()
         if randevu_id:
-            sonuc =doktor_objesi.randevu_durum_guncelle(randevu_id, "Onaylandı")
-            if sonuc == "Başarılı":
-                messagebox.showinfo("Başarılı", "Randevu onaylandı.")
+            sonuc = doktor_objesi.randevu_durum_guncelle(randevu_id, "Onaylandı")
+            if sonuc == "basarili":
+                messagebox.showinfo("Başarılı", "Randevu onaylandı olarak işaretlendi.")
                 randevulari_yukle()
             elif sonuc == "randevu_bulunamadi":
-                messagebox.showwarning("Uyarı", "Randevu Bulunamadı.")
+                messagebox.showwarning("Uyarı", "Randevu bulunamadı.")
             else:
-                messagebox.showerror("Hata", "Veritabanı Hatası oluştu.")
+                messagebox.showerror("Hata", "Veritabanı hatası oluştu.")
     
     def btn_randevu_tamamla_click():
         randevu_id = secili_randevu_id()
@@ -406,10 +408,16 @@ def frm_doktor_paneli():
             else:
                 messagebox.showerror("Hata", "Veritabanı hatası oluştu.")
     
+    def btn_cikis_yap_click():
+        if oturum_objesi.oturumu_kapat():
+            doktor_paneli_pencere.destroy()
+            ana_pencere.deiconify()
+
     # Butonlar
     tk.Button(doktor_paneli_pencere, text="Randevuyu Sil", command=btn_rendevu_sil_click).pack(pady=3)
     tk.Button(doktor_paneli_pencere, text='"Onaylandı" olarak işaretle', command=btn_randevu_onayla_click).pack(pady=3)
     tk.Button(doktor_paneli_pencere, text='"Tamamlandı" olarak işaretle', command=btn_randevu_tamamla_click).pack(pady=3)
+    tk.Button(doktor_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
     
     randevulari_yukle()
     doktor_paneli_pencere.mainloop()           
