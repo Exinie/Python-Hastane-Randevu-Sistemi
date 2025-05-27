@@ -56,7 +56,7 @@ class HastaIslemleri:
             cursor = conn.cursor()
 
             cursor.execute('''
-                SELECT tarih, saat, sikayet, doktor_id FROM RANDEVULAR WHERE hasta_id = ?
+                SELECT randevu_id, tarih, saat, sikayet, doktor_id FROM RANDEVULAR WHERE hasta_id = ?
             ''', (hasta_id,))
 
             randevu_listesi = cursor.fetchall()
@@ -65,5 +65,22 @@ class HastaIslemleri:
         except Exception as hata:
             return f"Hata oluştu: {str(hata)}"
 
+        finally:
+            conn.close()
+
+    def randevu_sil(self, randevu_id):
+        try:
+            conn = sqlite3.connect("veritabani.db")
+            cursor = conn.cursor()
+
+            cursor.execute('''
+                DELETE FROM RANDEVULAR WHERE randevu_id = ?
+            ''', (randevu_id,))
+            conn.commit()
+            return "Randevu başarıyla iptal edilmiştir."
+        
+        except Exception as hata:
+            return f"Hata oluştu: {str(hata)}"
+        
         finally:
             conn.close()

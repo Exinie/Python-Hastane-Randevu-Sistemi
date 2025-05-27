@@ -184,7 +184,6 @@ def frm_hasta_paneli():
     hasta_id = oturum_objesi.oturum["hasta_id"]
 
     randevu_listesi = hasta_objesi.randevu_listele(hasta_id)   
-    
     liste_etiket = tk.Label(hasta_paneli_pencere, text = "Randevularınız:")
     liste_etiket.pack()
 
@@ -193,9 +192,12 @@ def frm_hasta_paneli():
 
     listeislemi = tk.Listbox(hasta_paneli_pencere, width = 50, height = 10)
     for randevu in randevu_listesi:
-        listeislemi.insert(tk.END, f"{randevu[0]} - {randevu[1]} - {randevu[2]} - {randevu[3]}")
+        listeislemi.insert(tk.END, f"{randevu[0]} - {randevu[1]} - {randevu[2]} - {randevu[3]} - {randevu[4]}")
     listeislemi.pack(pady = 5)
     
+    
+
+
 
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
     def btn_randevu_al_click():
@@ -207,7 +209,35 @@ def frm_hasta_paneli():
         if oturum_objesi.oturumu_kapat():
             hasta_paneli_pencere.destroy()
             ana_pencere.deiconify()
+
+    def btn_randevu_iptal_et_click():
+        secili_durumda = listeislemi.curselection()
+        if not secili_durumda:
+            messagebox.showwarning("Uyarı", "Lütfen silmek istediğiniz randevuyu seçin.")
+            return
+
+        try:
+            secili_durumda = listeislemi.curselection()
+            if not secili_durumda:
+                messagebox.showwarning("Uyarı", "Lütfen iptal etmek istediğiniz randevuyu belirtiniz.")
+                return
             
+            secilen = listeislemi.get(secili_durumda[0])
+            randevu_id = int(secilen.split(" - ")[0])
+
+            sonuc = hasta_objesi.randevu_sil(randevu_id)
+
+            if sonuc == "Randevu başarıyla iptal edilmiştir.":
+               messagebox.showinfo("Başarılı", sonuc)
+            else:
+                messagebox.showerror("Hata", sonuc)
+
+        except Exception as hata:
+            messagebox.showerror("Hata", f"Bir hata oluştu: {str(hata)}")
+
+        hasta_paneli_pencere.destroy()
+      
+
     ''' Üst başlık metni '''
     lbl_ana_baslik = tk.Label(hasta_paneli_pencere, text="Hasta Paneli", font=("Arial", 14))
     lbl_ana_baslik.pack()
@@ -218,6 +248,7 @@ def frm_hasta_paneli():
     ''' Metin girişleri ve işlem butonları vs '''
     tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", width=15, command=btn_randevu_al_click).pack(pady=10)
     tk.Button(hasta_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
+    tk.Button(hasta_paneli_pencere, text="Randevuyu iptal et", command=btn_randevu_iptal_et_click).pack(pady=10)
 # End Hasta paneli
 
 # Hasta randevu oluşturma penceresi
@@ -263,8 +294,8 @@ def frm_hasta_randevu_al():
             frm_hasta_paneli()
         elif gelen_cevap == "dolu":
             messagebox.showwarning("Uyarı", "Seçtiğiniz tarihte doktorunuz meşguldür.")
-        
-            
+
+
     ''' Metin girişleri ve işlem butonları vs '''
     tk.Label(hasta_randevu_al_pencere, text="Doktor tercih ediniz:").pack()
     combobox = ttk.Combobox(hasta_randevu_al_pencere, values=doktor_adlari, state="readonly")
