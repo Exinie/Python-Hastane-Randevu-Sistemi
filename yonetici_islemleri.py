@@ -1,72 +1,68 @@
 import sqlite3
-import tkinter as tk
-from tkinter import messagebox
 
 
-def listele():
-    liste.delete(0, tk.END)
-    conn = sqlite3.connect("veritabani.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * from kullanicilar")
-    for row in cursor.fetchall():
-        liste.insert(tk.END, f"{row[0]} - {row[2]}")
-    conn.close()    
+class YoneticiIslemleri:
 
-def kullanici_ekle():
-    ad = entry_ad.get()
-    sifre = entry_sifre.get()
-    yetki =combo_yetki.get()
+    def __init__(self, veritabani_adi="veritabani.db"):
+        self.veritabani_adi = veritabani_adi
 
-    if not ad or not sifre or not yetki:
-        messagebox.showwarning("Hata", "Tüm alanlar doldurulmalıdır.")
-        return
-    
-    try:
-        conn = sqlite3.connect("veritabani.db")
+    def hastalari_listele(self):
+        conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO kullanicilar (kullanici_adi, sifre, yetki) VALUES (?, ?, ?)",(ad, sifre, yetki))
+        cursor.execute("SELECT * FROM HASTALAR")
+        veriler = cursor.fetchall()
+        conn.close()
+        return veriler
+
+    def hasta_sil(self, hasta_id):
+        conn = sqlite3.connect(self.veritabani_adi)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM hastalar WHERE hasta_id=?", (hasta_id,))
         conn.commit()
         conn.close()
-        messagebox.showinfo("Başarılı", "Kullanıcı eklendi.")
-        listele()
-    except sqlite3.IntegrityError:
-        messagebox.showwarning("Hata", "Bu kullanıcı zaten var.")    
- 
 
-def kullanici_sil():
-    ad = entry_ad.get()
-    if not ad:
-        messagebox.showwarning("Hata", "Silinecek kullanıcı adı girilmelidir.")
-        return
-    
-    conn = sqlite3.connect("veritabani.db")
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM kullanicilar WHERE kullanici_adi=?", (ad,))
-    if cursor.rowcount == 0:
-        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
-    else:
-        messagebox.showinfo("Başarılı", "kullanıcı silindi.")
-    conn.commit()
-    conn.close()
-    listele()         
+    def doktorları_listele(self):
+        conn = sqlite3.connect(self.veritabani_adi)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM DOKTORLAR")
+        veriler = cursor.fetchall()
+        conn.close()
+        return veriler
 
-def kullanici_guncelle():
-    ad = entry_ad.get()
-    sifre = entry_sifre.get()
-    yetki = combo_yetki.get()
+    def doktor_sil(self, doktor_id):
+        conn = sqlite3.connect(self.veritabani_adi)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM DOKTORLAR WHERE doktor_id=?", (doktor_id,))
+        conn.commit()
+        conn.close()
 
-    if not ad or not sifre or not yetki:
-        messagebox.showwarning("Hata","Tüm alanlar doldurulmalıdır.")
-        return
+    def doktor_ekle(self, tc, ad, soyad, sifre, uzmanlik):
+        conn = sqlite3.connect(self.veritabani_adi)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO DOKTORLAR (tc, ad, soyad, sifre, uzmanlik) VALUES (?, ?, ?, ?, ?)", (tc, ad, soyad, sifre, uzmanlik))
+        conn.commit()
+        conn.close()
 
-    conn = sqlite3.connect("veritabani.db")
-    cursor = conn.cursor()
-    cursor.execute("UPDATE kullanicilar SET sifre=?, yetki=? WHERE kullanici_adi=?",(sifre, yetki ,ad))
-    if cursor.rowcount == 0:
-        messagebox.showwarning("Hata", "Kullanıcı bulunamadı.")
-    else:
-        messagebox.showinfo("Başarılı", "Kullanıcı güncellendi.")
-    conn.commit()
-    conn.close()
-    listele()
+    def yoneticileri_listele(self):
+        conn = sqlite3.connect(self.veritabani_adi)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM YONETICILER")
+        veriler = cursor.fetchall()
+        conn.close()
+        return veriler
+        
 
+    def yonetici_sil(self, kullanici_adi):
+        conn = sqlite3.connect(self.veritabani_adi)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM YONETICILER WHERE kullanici_adi=?", (kullanici_adi,))
+        conn.commit()
+        conn.close()
+
+
+    def yonetici_ekle(self, ad, sifre):
+        conn = sqlite3.connect(self.veritabani_adi)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO YONETICILER (kullanici_adi, sifre) VALUES (?, ?)", (ad, sifre))
+        conn.commit()
+        conn.close()

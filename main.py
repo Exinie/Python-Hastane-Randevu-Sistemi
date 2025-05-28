@@ -5,15 +5,16 @@ from hasta_islemleri import HastaIslemleri
 from veritabani_kurulumu import Veritabani
 from oturum_islemleri import OturumIslemleri
 from doktor_islemleri import DoktorIslemleri
+from yonetici_islemleri import YoneticiIslemleri
 
 veritabani_kurulumu_objesi = Veritabani()
 oturum_objesi = OturumIslemleri()
 hasta_objesi = HastaIslemleri()
 doktor_objesi = DoktorIslemleri()
+yonetici_objesi = YoneticiIslemleri()
 
 ''' Ana pencere fonksiyonuna diğer pencerelerden erişilebilmesi için tüm fonskiyonlardan ayrı olarak tanımlanmıştır.  '''
 ana_pencere = tk.Tk()
-
 
 # Ana pencere
 def main():
@@ -196,9 +197,6 @@ def frm_hasta_paneli():
     listeislemi.pack(pady = 5)
     
     
-
-
-
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
     def btn_randevu_al_click():
         hasta_paneli_pencere.destroy()
@@ -510,13 +508,16 @@ def frm_yonetici_paneli():
 
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
     def btn_hastalari_yonet_click():
-        pass
+        yonetici_paneli_pencere.destroy()
+        hastalari_yonet()
     
     def btn_doktorlari_yonet_click():
-        pass
+        yonetici_paneli_pencere.destroy()
+        doktorları_yonet()
 
     def btn_yoneticileri_yonet_click():
-        pass
+        yonetici_paneli_pencere.destroy()
+        yoneticileri_yonet()
 
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
@@ -540,6 +541,118 @@ def frm_yonetici_paneli():
     liste = tk.Listbox(yonetici_paneli_pencere, width=40)
     liste.pack(pady=10)
 # End yönetici paneli
+
+def hastalari_yonet():
+    pencere = tk.Toplevel()
+    pencere.title("Hastaları Yönet")
+
+    liste = tk.Listbox(pencere,width=50)
+    liste.pack(pady=10)
+
+    hastalar = yonetici_objesi.hastalari_listele()
+    for h in hastalar:
+        liste.insert(tk.END, f"{h[0]} - {h[1]} {h[2]}")
+
+    def sil():
+        secili = liste.curselection()
+        if not secili:
+            messagebox.showwarning("uyarı", "Lütfen silinecek hastayı seçin.")
+            return
+        hasta_id = hastalar[secili[0]][0]
+        yonetici_objesi.hasta_sil(hasta_id)
+        liste.delete(secili)
+
+    tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)   
+    
+def doktorları_yonet():
+    pencere = tk.Toplevel()
+    pencere.title("Doktorları Yönet")
+
+    liste = tk.Listbox(pencere, width=60)
+    liste.pack(pady=10)
+
+    doktorlar = yonetici_objesi.doktorları_listele()
+    for d in doktorlar:
+        liste.insert(tk.END, f"{d[0]} - {d[1]} {d[2]} - {d[4]}")
+
+    def sil():
+        secili = liste.curselection()
+        if not secili:
+            messagebox.showwarning("Uyarı", "Lütfen silinecek doktoru seçin.")
+            return
+        doktor_id = doktorlar[secili[0]][0]
+        yonetici_objesi.doktor_sil(doktor_id)
+        liste.delete(secili[0])
+
+        tk.Button(pencere, text="Doktoru Sil", command=sil).pack(pady=5)
+       
+       
+        frame = tk.Frame(pencere)
+        frame.pack(pady=10)
+
+        entries = {}
+        for i, etiket in enumerate(["TC", "Ad", "Soyad", "Şifre", "Uzmanlık"]):
+            tk.Label(frame, text=etiket).grid(row=i, column=0, sticky="e")
+            e = tk.Entry(frame)
+            e.grid(row=i, column=1)
+            entries[etiket.lower()] = e
+            
+    def ekle():
+        veriler = [entries[x].get() for x in ["tc", "ad", "soyad", "şifre", "uzmanlık"]]
+        if not all(veriler):
+            messagebox.showwarning("Uyarı", "Tüm alanlar doldurulmalı.")
+            return
+        yonetici_objesi.doktor_ekle(*veriler)
+        liste.insert(tk.END, f"{veriler[0]} - {veriler[1]} {veriler[2]} - {veriler[4]}")
+
+        tk.Button(frame, text="Doktor Ekle", command=ekle).grid(row=5, columnspan=2, pady=5)
+
+
+def yoneticileri_yonet():
+    pencere = tk.Toplevel()
+    pencere.title("Yöneticileri Yönet")
+
+    liste = tk.Listbox(pencere, width=50)
+    liste.pack(pady=10)
+
+    yoneticiler = yonetici_objesi.yoneticileri_listele()
+    for y in yoneticiler:
+        liste.insert(tk.END, f"{y[0]} - {y[1]}")
+
+
+    def sil():
+        secili = liste.curselection()
+        if not secili:
+            messagebox.showwarning("Uyarı", "Lütfen silinecek yöneticiyi seçin.")
+            return
+        kullanici_adi = yoneticiler[secili[0]][1]
+        yonetici_objesi.yonetici_sil(kullanici_adi)
+        liste.delete(secili)
+
+    tk.Button(pencere, text="Yönetici Sil", command=sil).pack(pady=5)
+
+    frame = tk.Frame(pencere)
+    frame.pack(pady=10)
+
+    tk.Label(frame, text="Kullanıcı Adı").grid(row=0, column=0)
+    entry_ad = tk.Entry(frame)
+    entry_ad.grid(row=0, column=1)
+
+    tk.Label(frame, text="Şifre").grid(row=1, column=0)
+    entry_sifre = tk.Entry(frame, show="*")
+    entry_sifre.grid(row=1, column=1)
+
+    
+    def ekle():
+        ad = entry_ad.get()
+        sifre = entry_sifre.get()
+        if not ad or not sifre:
+            messagebox.showwarning("Uyarı", "Alanlar boş olamaz.")
+            return
+        yonetici_objesi.yonetici_ekle(ad, sifre)
+        liste.insert(tk.END, f"{ad}")
+
+    tk.Button(frame, text="Yönetici Ekle", command=ekle).grid(row=2, columnspan=2, pady=5)
 
 if __name__ == "__main__":
     main()
