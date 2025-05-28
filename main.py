@@ -546,6 +546,7 @@ def hastalari_yonet():
     pencere = tk.Toplevel()
     pencere.title("Hastaları Yönet")
 
+    #hasta listesi
     liste = tk.Listbox(pencere,width=50)
     liste.pack(pady=10)
 
@@ -553,6 +554,7 @@ def hastalari_yonet():
     for h in hastalar:
         liste.insert(tk.END, f"{h[0]} - {h[1]} {h[2]}")
 
+    #seçilen hastayı silen fonksiyon
     def sil():
         secili = liste.curselection()
         if not secili:
@@ -564,10 +566,14 @@ def hastalari_yonet():
 
     tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)   
     
+    tk.Button(pencere, text="Geri Dön", command=pencere.destroy).pack(pady=10)
+
+
 def doktorları_yonet():
     pencere = tk.Toplevel()
     pencere.title("Doktorları Yönet")
 
+    #doktor listesi
     liste = tk.Listbox(pencere, width=60)
     liste.pack(pady=10)
 
@@ -575,6 +581,9 @@ def doktorları_yonet():
     for d in doktorlar:
         liste.insert(tk.END, f"{d[0]} - {d[1]} {d[2]} - {d[4]}")
 
+    entries = {}
+
+ #seçilen doktoru silen fonksiyon
     def sil():
         secili = liste.curselection()
         if not secili:
@@ -583,20 +592,9 @@ def doktorları_yonet():
         doktor_id = doktorlar[secili[0]][0]
         yonetici_objesi.doktor_sil(doktor_id)
         liste.delete(secili[0])
+        messagebox.showinfo("Başarılı", "Doktor silindi.")
 
-        tk.Button(pencere, text="Doktoru Sil", command=sil).pack(pady=5)
-       
-       
-        frame = tk.Frame(pencere)
-        frame.pack(pady=10)
-
-        entries = {}
-        for i, etiket in enumerate(["TC", "Ad", "Soyad", "Şifre", "Uzmanlık"]):
-            tk.Label(frame, text=etiket).grid(row=i, column=0, sticky="e")
-            e = tk.Entry(frame)
-            e.grid(row=i, column=1)
-            entries[etiket.lower()] = e
-            
+     # Yeni doktor ekleyen fonksiyon
     def ekle():
         veriler = [entries[x].get() for x in ["tc", "ad", "soyad", "şifre", "uzmanlık"]]
         if not all(veriler):
@@ -604,22 +602,39 @@ def doktorları_yonet():
             return
         yonetici_objesi.doktor_ekle(*veriler)
         liste.insert(tk.END, f"{veriler[0]} - {veriler[1]} {veriler[2]} - {veriler[4]}")
+        messagebox.showinfo("Başarılı", "Doktor eklendi.")
 
-        tk.Button(frame, text="Doktor Ekle", command=ekle).grid(row=5, columnspan=2, pady=5)
+    
+    tk.Button(pencere, text="Doktoru Sil", command=sil).pack(pady=5)
 
+      #doktor ekleme alanı
+    frame = tk.Frame(pencere)
+    frame.pack(pady=10)
+
+    for i, etiket in enumerate(["TC", "Ad", "Soyad", "Şifre", "Uzmanlık"]):
+        tk.Label(frame, text=etiket).grid(row=i, column=0, sticky="e")
+        e = tk.Entry(frame)
+        e.grid(row=i, column=1)
+        entries[etiket.lower()] = e
+
+    tk.Button(frame, text="Doktor Ekle", command=ekle).grid(row=5, columnspan=2, pady=5)
+
+    tk.Button(pencere, text="Geri Dön", command=pencere.destroy).pack(pady=10)
 
 def yoneticileri_yonet():
     pencere = tk.Toplevel()
     pencere.title("Yöneticileri Yönet")
 
+    #yönetici listesi
     liste = tk.Listbox(pencere, width=50)
     liste.pack(pady=10)
-
+ 
     yoneticiler = yonetici_objesi.yoneticileri_listele()
     for y in yoneticiler:
         liste.insert(tk.END, f"{y[0]} - {y[1]}")
 
-
+ 
+      #seçilen yöneticiyi silen fonksiyon
     def sil():
         secili = liste.curselection()
         if not secili:
@@ -631,6 +646,7 @@ def yoneticileri_yonet():
 
     tk.Button(pencere, text="Yönetici Sil", command=sil).pack(pady=5)
 
+#yeni yönetici ekleme alanı
     frame = tk.Frame(pencere)
     frame.pack(pady=10)
 
@@ -642,7 +658,7 @@ def yoneticileri_yonet():
     entry_sifre = tk.Entry(frame, show="*")
     entry_sifre.grid(row=1, column=1)
 
-    
+    #yeni yönetici ekleyen fonksiyon
     def ekle():
         ad = entry_ad.get()
         sifre = entry_sifre.get()
@@ -653,6 +669,8 @@ def yoneticileri_yonet():
         liste.insert(tk.END, f"{ad}")
 
     tk.Button(frame, text="Yönetici Ekle", command=ekle).grid(row=2, columnspan=2, pady=5)
+
+    tk.Button(pencere, text="Geri Dön", command=pencere.destroy).pack(pady=10)
 
 if __name__ == "__main__":
     main()
