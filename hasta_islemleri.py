@@ -31,6 +31,7 @@ class HastaIslemleri:
         finally:
             conn.close()
 
+    # doktor listesini oluşturabilmek için oluşturulan blok
     def doktor_listele(self):
         try:
             conn = sqlite3.connect("veritabani.db")
@@ -67,7 +68,7 @@ class HastaIslemleri:
 
         finally:
             conn.close()
-
+    # randevuları silmek için oluşturulan blok
     def randevu_sil(self, randevu_id):
         try:
             conn = sqlite3.connect("veritabani.db")

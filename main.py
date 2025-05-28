@@ -180,7 +180,7 @@ def frm_hasta_paneli():
     ''' Hasta paneli pencere özellikleri '''
     hasta_paneli_pencere = tk.Toplevel()
     hasta_paneli_pencere.title("Hasta Paneli")
-    hasta_paneli_pencere.geometry("300x350")
+    hasta_paneli_pencere.geometry("300x440")
 
     hasta_id = oturum_objesi.oturum["hasta_id"]
 
@@ -227,6 +227,8 @@ def frm_hasta_paneli():
 
             if sonuc == "Randevu başarıyla iptal edilmiştir.":
                messagebox.showinfo("Başarılı", sonuc)
+               hasta_paneli_pencere.destroy()
+               frm_hasta_paneli()
             else:
                 messagebox.showerror("Hata", sonuc)
 
