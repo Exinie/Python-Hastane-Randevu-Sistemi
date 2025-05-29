@@ -180,21 +180,21 @@ def frm_hasta_paneli():
     ''' Hasta paneli pencere özellikleri '''
     hasta_paneli_pencere = tk.Toplevel()
     hasta_paneli_pencere.title("Hasta Paneli")
-    hasta_paneli_pencere.geometry("300x440")
+    hasta_paneli_pencere.geometry("350x470")
 
     hasta_id = oturum_objesi.oturum["hasta_id"]
 
     randevu_listesi = hasta_objesi.randevu_listele(hasta_id)   
     liste_etiket = tk.Label(hasta_paneli_pencere, text = "Randevularınız:")
-    liste_etiket.pack()
+    liste_etiket.grid(row = 3, column = 0, columnspan = 3)
 
     liste_basligi_label = tk.Label(hasta_paneli_pencere, text = f"{'Tarih':<12}     {'Saat':<8}     {'Şikayet':<25}     {'Doktor ID':<8}", font = ("Arial", 9, "bold"))
-    liste_basligi_label.pack() 
+    liste_basligi_label.grid(row=4, column=0, columnspan=3, pady=(5, 0)) 
 
     listeislemi = tk.Listbox(hasta_paneli_pencere, width = 50, height = 10)
     for randevu in randevu_listesi:
         listeislemi.insert(tk.END, f"{randevu[0]} - {randevu[1]} - {randevu[2]} - {randevu[3]} - {randevu[4]}")
-    listeislemi.pack(pady = 5)
+    listeislemi.grid(row = 5, column = 0, columnspan = 3, padx = 10, pady = 10)
     
     
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
@@ -240,15 +240,20 @@ def frm_hasta_paneli():
 
     ''' Üst başlık metni '''
     lbl_ana_baslik = tk.Label(hasta_paneli_pencere, text="Hasta Paneli", font=("Arial", 14))
-    lbl_ana_baslik.pack()
+    lbl_ana_baslik.grid(row = 0, column = 0, columnspan = 3, pady = (10, 0))
 
-    lbl_hos_geldiniz_metni = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz " + oturum_objesi.oturum["ad"] + " " + oturum_objesi.oturum["soyad"], font=("Arial", 12))
-    lbl_hos_geldiniz_metni.pack(pady=20)
+    lbl_hos_geldiniz_metni = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz, " + oturum_objesi.oturum["ad"] + " " + oturum_objesi.oturum["soyad"] + "!", font=("Arial", 16, "bold"))
+    lbl_hos_geldiniz_metni.grid(row = 1, column = 0, columnspan = 3, pady = (5, 15))
 
     ''' Metin girişleri ve işlem butonları vs '''
-    tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", width=15, command=btn_randevu_al_click).pack(pady=10)
-    tk.Button(hasta_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
-    tk.Button(hasta_paneli_pencere, text="Randevuyu iptal et", command=btn_randevu_iptal_et_click).pack(pady=10)
+   
+    randevu_butonu = tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", command=btn_randevu_al_click)
+    randevu_butonu.grid(row = 8, column = 0, padx = 10, pady = 20)
+    cikis_butonu = tk.Button(hasta_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click)
+    cikis_butonu.grid(row = 8, column = 1, padx = 10, pady = 20)
+    randevu_iptal_butonu = tk.Button(hasta_paneli_pencere, text="Randevuyu iptal et", command=btn_randevu_iptal_et_click)
+    randevu_iptal_butonu.grid(row = 8, column = 2, padx = 10, pady = 20)
+    
 # End Hasta paneli
 
 # Hasta randevu oluşturma penceresi
