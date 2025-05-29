@@ -180,7 +180,7 @@ def frm_hasta_paneli():
     ''' Hasta paneli pencere özellikleri '''
     hasta_paneli_pencere = tk.Toplevel()
     hasta_paneli_pencere.title("Hasta Paneli")
-    hasta_paneli_pencere.geometry("350x410")
+    hasta_paneli_pencere.geometry("380x400")
 
     hasta_id = oturum_objesi.oturum["hasta_id"]
 
@@ -573,7 +573,7 @@ def hastalari_yonet():
 
         
     def btn_geri_don_click():
-        pencere.destroy()
+        pencere.destroy
         frm_yonetici_paneli()
 
     tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)   
@@ -631,7 +631,7 @@ def doktorları_yonet():
 
 
     def btn_geri_don_click():
-        pencere.destroy()
+        pencere.destroy
         frm_yonetici_paneli()
 
     tk.Button(frame, text="Doktor Ekle", command=ekle).grid(row=5, columnspan=2, pady=5)
@@ -686,7 +686,7 @@ def yoneticileri_yonet():
         liste.insert(tk.END, f"{ad}")
 
     def btn_geri_don_click():
-        pencere.destroy()
+        pencere.destroy
         frm_yonetici_paneli()
 
 
