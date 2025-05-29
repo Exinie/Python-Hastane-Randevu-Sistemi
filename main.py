@@ -1,3 +1,7 @@
+import os
+import csv
+from datetime import datetime
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
@@ -526,7 +530,7 @@ def frm_yonetici_paneli():
     ''' Yönetici paneli pencere özellikleri '''
     yonetici_paneli_pencere = tk.Toplevel()
     yonetici_paneli_pencere.title("Yönetici Paneli")
-    yonetici_paneli_pencere.geometry("350x450")
+    yonetici_paneli_pencere.geometry("1000x500")
 
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
     def btn_hastalari_yonet_click():
@@ -540,6 +544,29 @@ def frm_yonetici_paneli():
     def btn_yoneticileri_yonet_click():
         yonetici_paneli_pencere.destroy()
         yoneticileri_yonet()
+
+    def btn_log_kaydi_disari_aktar_click():
+        giris_yapili_yonetici_id = oturum_objesi.oturum["yonetici_id"]
+        try:
+            
+            masaustu_dizini = os.path.join(os.environ["USERPROFILE"], "Desktop")
+            tarih_saat = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            dosya_ismi_final = os.path.join(masaustu_dizini, f"log_kayitlari_{tarih_saat}.csv")
+
+           
+            f = open(dosya_ismi_final, "w", newline="", encoding="utf-8")
+            writer = csv.writer(f)
+            writer.writerow(["ID", "Kullanıcı Türü", "Kullanıcı ID", "İşlem", "Tarih ve Saat"])
+
+            for satir in tree.get_children():
+                writer.writerow(tree.item(satir)["values"])
+
+            f.close()
+
+            messagebox.showinfo("Bilgi", f"Günlük kayıtları masaüstüne kaydedildi:\n{dosya_ismi_final}")
+            log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonetici_id, "log kaydını dışarı aktardı.")
+        except Exception as e:
+            messagebox.showerror("Hata", f"{e}")
 
     def btn_cikis_yap_click():
         giris_yapili_yonetici_id = oturum_objesi.oturum["yonetici_id"]
@@ -561,10 +588,31 @@ def frm_yonetici_paneli():
     tk.Button(yonetici_paneli_pencere, text="Hastaları Yönet", command=btn_hastalari_yonet_click).pack(pady=2)
     tk.Button(yonetici_paneli_pencere, text="Doktorları Yönet", command=btn_doktorlari_yonet_click).pack(pady=2)
     tk.Button(yonetici_paneli_pencere, text="Yöneticileri Yönet", command=btn_yoneticileri_yonet_click).pack(pady=2)
-    tk.Button(yonetici_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
 
-    liste = tk.Listbox(yonetici_paneli_pencere, width=40)
-    liste.pack(pady=10)
+    # Log kayıtlarının listelendiği treeview widget / elementi
+    tree = ttk.Treeview(yonetici_paneli_pencere, columns=("log_id", "kullanici_turu", "kullanici_id", "islem", "tarih_saat"), show="headings")
+    tree.heading("log_id", text="ID")
+    tree.heading("kullanici_turu", text="Fail Kullanıcı Türü")
+    tree.heading("kullanici_id", text="Fail Kullanıcı Kullanıcı ID")
+    tree.heading("islem", text="Yapılan İşlem")
+    tree.heading("tarih_saat", text="Tarih ve Saat")
+
+    tree.column("log_id", width=50, anchor="w")
+    tree.column("kullanici_turu", width=150, anchor="w")
+    tree.column("kullanici_id", width=150, anchor="w")
+    tree.column("islem", width=250)
+    tree.column("tarih_saat", width=150, anchor="w")
+
+    tree.pack(fill=tk.BOTH, expand=True)
+    
+    veriler = log_objesi.log_kayitlarini_listele()
+
+    if veriler:
+        for veri in veriler:
+            tree.insert("", "end", values=veri)
+
+    tk.Button(yonetici_paneli_pencere, text="Günlük Kaydını Dışarı Aktar", command=btn_log_kaydi_disari_aktar_click).pack(pady=2)
+    tk.Button(yonetici_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
 # End yönetici paneli
 
 def hastalari_yonet():
@@ -599,7 +647,7 @@ def hastalari_yonet():
 
         
     def btn_geri_don_click():
-        pencere.destroy
+        pencere.destroy()
         frm_yonetici_paneli()
 
     tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)   
@@ -673,7 +721,7 @@ def doktorları_yonet():
 
 
     def btn_geri_don_click():
-        pencere.destroy
+        pencere.destroy()
         frm_yonetici_paneli()
 
     tk.Button(frame, text="Doktor Ekle", command=ekle).grid(row=5, columnspan=2, pady=5)
@@ -743,7 +791,7 @@ def yoneticileri_yonet():
         liste.insert(tk.END, f"{ad}")
 
     def btn_geri_don_click():
-        pencere.destroy
+        pencere.destroy()
         frm_yonetici_paneli()
 
 

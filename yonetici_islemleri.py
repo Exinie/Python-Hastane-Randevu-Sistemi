@@ -59,7 +59,7 @@ class YoneticiIslemleri:
     def doktor_ekle(self, tc, ad, soyad, sifre, uzmanlik):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO DOKTORLAR (tc, ad, soyad, sifre, uzmanlik) VALUES (?, ?, ?, ?, ?)", (tc, ad, soyad, sifre, uzmanlik))
+        cursor.execute("INSERT INTO DOKTORLAR (tc_no, ad, soyad, sifre, uzmanlik) VALUES (?, ?, ?, ?, ?)", (tc, ad, soyad, sifre, uzmanlik))
         conn.commit()
         conn.close()
 
