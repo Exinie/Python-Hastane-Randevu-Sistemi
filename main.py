@@ -215,6 +215,7 @@ def frm_hasta_paneli():
 
     def btn_randevu_iptal_et_click():
         secili_durumda = listeislemi.curselection()
+        giris_yapilmis_hasta_id = oturum_objesi.oturum["hasta_id"]
         if not secili_durumda:
             messagebox.showwarning("Uyarı", "Lütfen silmek istediğiniz randevuyu seçin.")
             return
@@ -231,6 +232,7 @@ def frm_hasta_paneli():
             sonuc = hasta_objesi.randevu_sil(randevu_id)
 
             if sonuc == "Randevu başarıyla iptal edilmiştir.":
+               log_objesi.log_kaydi_olustur("hasta",  giris_yapilmis_hasta_id, "Kullanıcı randevu iptal etti.")
                messagebox.showinfo("Başarılı", sonuc)
                hasta_paneli_pencere.destroy()
                frm_hasta_paneli()
@@ -299,7 +301,7 @@ def frm_hasta_randevu_al():
         gelen_cevap = hasta_objesi.randevu_al(giris_yapilmis_hasta_id, doktor_id, secilen_tarih, saat_dakika, sikayet)
 
         if gelen_cevap == True:
-            
+            log_objesi.log_kaydi_olustur("hasta", giris_yapilmis_hasta_id, "Kullanıcı randevu aldı.")
             messagebox.showinfo("Bilgi", "Randevunuz başarıyla alınmıştır.")
             hasta_randevu_al_pencere.destroy()
             frm_hasta_paneli()
