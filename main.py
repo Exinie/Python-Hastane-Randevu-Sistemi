@@ -683,11 +683,8 @@ def hastalari_yonet():
         hasta_id = hastalar[secili[0]][0]
         yonetici_objesi.hasta_sil(hasta_id)
         liste.delete(secili)
-<<<<<<< HEAD
 
-=======
       
->>>>>>> e8e8860 (pep8 standartı uyumluluğu arttırıldı.)
     def btn_geri_don_click():
         pencere.destroy()
         frm_yonetici_paneli()
