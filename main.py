@@ -215,6 +215,7 @@ def frm_hasta_paneli():
 
     def btn_randevu_iptal_et_click():
         secili_durumda = listeislemi.curselection()
+        giris_yapilmis_hasta_id = oturum_objesi.oturum["hasta_id"]
         if not secili_durumda:
             messagebox.showwarning("Uyarı", "Lütfen silmek istediğiniz randevuyu seçin.")
             return
@@ -231,6 +232,7 @@ def frm_hasta_paneli():
             sonuc = hasta_objesi.randevu_sil(randevu_id)
 
             if sonuc == "Randevu başarıyla iptal edilmiştir.":
+               log_objesi.log_kaydi_olustur("hasta",  giris_yapilmis_hasta_id, "Kullanıcı randevu iptal etti.")
                messagebox.showinfo("Başarılı", sonuc)
                hasta_paneli_pencere.destroy()
                frm_hasta_paneli()
@@ -299,7 +301,7 @@ def frm_hasta_randevu_al():
         gelen_cevap = hasta_objesi.randevu_al(giris_yapilmis_hasta_id, doktor_id, secilen_tarih, saat_dakika, sikayet)
 
         if gelen_cevap == True:
-            
+            log_objesi.log_kaydi_olustur("hasta", giris_yapilmis_hasta_id, "Kullanıcı randevu aldı.")
             messagebox.showinfo("Bilgi", "Randevunuz başarıyla alınmıştır.")
             hasta_randevu_al_pencere.destroy()
             frm_hasta_paneli()
@@ -583,6 +585,8 @@ def hastalari_yonet():
         if not secili:
             messagebox.showwarning("uyarı", "Lütfen silinecek hastayı seçin.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Hasta kullanıcısı silindi.")
         hasta_id = hastalar[secili[0]][0]
         yonetici_objesi.hasta_sil(hasta_id)
         liste.delete(secili)
@@ -617,6 +621,8 @@ def doktorları_yonet():
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen silinecek doktoru seçin.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Doktor kullanıcısı silindi.")
         doktor_id = doktorlar[secili[0]][0]
         yonetici_objesi.doktor_sil(doktor_id)
         liste.delete(secili[0])
@@ -628,6 +634,8 @@ def doktorları_yonet():
         if not all(veriler):
             messagebox.showwarning("Uyarı", "Tüm alanlar doldurulmalı.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Doktor kullanıcısı eklendi.")
         yonetici_objesi.doktor_ekle(*veriler)
         liste.insert(tk.END, f"{veriler[0]} - {veriler[1]} {veriler[2]} - {veriler[4]}")
         messagebox.showinfo("Başarılı", "Doktor eklendi.")
@@ -673,6 +681,8 @@ def yoneticileri_yonet():
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen silinecek yöneticiyi seçin.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Yonetici kullanıcısı silindi.")
         kullanici_adi = yoneticiler[secili[0]][1]
         yonetici_objesi.yonetici_sil(kullanici_adi)
         liste.delete(secili)
@@ -698,6 +708,8 @@ def yoneticileri_yonet():
         if not ad or not sifre:
             messagebox.showwarning("Uyarı", "Alanlar boş olamaz.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Yonetici kullanıcısı eklendi.")
         yonetici_objesi.yonetici_ekle(ad, sifre)
         liste.insert(tk.END, f"{ad}")
 
