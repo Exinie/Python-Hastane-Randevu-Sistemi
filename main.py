@@ -579,6 +579,8 @@ def hastalari_yonet():
         if not secili:
             messagebox.showwarning("uyarı", "Lütfen silinecek hastayı seçin.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Hasta kullanıcısı silindi.")
         hasta_id = hastalar[secili[0]][0]
         yonetici_objesi.hasta_sil(hasta_id)
         liste.delete(secili)
@@ -613,6 +615,8 @@ def doktorları_yonet():
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen silinecek doktoru seçin.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Doktor kullanıcısı silindi.")
         doktor_id = doktorlar[secili[0]][0]
         yonetici_objesi.doktor_sil(doktor_id)
         liste.delete(secili[0])
@@ -624,6 +628,8 @@ def doktorları_yonet():
         if not all(veriler):
             messagebox.showwarning("Uyarı", "Tüm alanlar doldurulmalı.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Doktor kullanıcısı eklendi.")
         yonetici_objesi.doktor_ekle(*veriler)
         liste.insert(tk.END, f"{veriler[0]} - {veriler[1]} {veriler[2]} - {veriler[4]}")
         messagebox.showinfo("Başarılı", "Doktor eklendi.")
@@ -669,6 +675,8 @@ def yoneticileri_yonet():
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen silinecek yöneticiyi seçin.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Yonetici kullanıcısı silindi.")
         kullanici_adi = yoneticiler[secili[0]][1]
         yonetici_objesi.yonetici_sil(kullanici_adi)
         liste.delete(secili)
@@ -694,6 +702,8 @@ def yoneticileri_yonet():
         if not ad or not sifre:
             messagebox.showwarning("Uyarı", "Alanlar boş olamaz.")
             return
+        giris_yapili_yonet_id = oturum_objesi.oturum["yonetici_id"]
+        log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonet_id, "Yonetici kullanıcısı eklendi.")
         yonetici_objesi.yonetici_ekle(ad, sifre)
         liste.insert(tk.END, f"{ad}")
 
