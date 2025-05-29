@@ -15,6 +15,7 @@ class Veritabani:
         self._hastalar_tablosu()
         self._yoneticiler_tablosu()
         self._randevular_tablosu()
+        self._log_tablosu()
 
         self.yonetici_ekle('admin', '123')
 
@@ -84,6 +85,16 @@ class Veritabani:
             durum TEXT DEFAULT 'Incelenmesi Bekleniyor',
             FOREIGN KEY (hasta_id) REFERENCES HASTALAR(hasta_id),
             FOREIGN KEY (doktor_id) REFERENCES DOKTORLAR(doktor_id)
+        )
+        ''')
+    def _log_tablosu(self):
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS LOG_KAYITLARI (
+            log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            kullanici_turu TEXT NOT NULL,
+            kullanici_id INTEGER,
+            islem TEXT NOT NULL,
+            tarih_saat TEXT DEFAULT (datetime('now', 'localtime'))
         )
         ''')
 

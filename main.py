@@ -180,7 +180,7 @@ def frm_hasta_paneli():
     ''' Hasta paneli pencere özellikleri '''
     hasta_paneli_pencere = tk.Toplevel()
     hasta_paneli_pencere.title("Hasta Paneli")
-    hasta_paneli_pencere.geometry("380x400")
+    hasta_paneli_pencere.geometry("350x410")
 
     hasta_id = oturum_objesi.oturum["hasta_id"]
 
