@@ -566,9 +566,14 @@ def hastalari_yonet():
         yonetici_objesi.hasta_sil(hasta_id)
         liste.delete(secili)
 
+        
+    def btn_geri_don_click():
+        pencere.destroy
+        frm_yonetici_paneli()
+
     tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)   
     
-    tk.Button(pencere, text="Geri Dön", command=pencere.destroy).pack(pady=10)
+    tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
 
 
 def doktorları_yonet():
@@ -619,9 +624,14 @@ def doktorları_yonet():
         e.grid(row=i, column=1)
         entries[etiket.lower()] = e
 
+
+    def btn_geri_don_click():
+        pencere.destroy
+        frm_yonetici_paneli()
+
     tk.Button(frame, text="Doktor Ekle", command=ekle).grid(row=5, columnspan=2, pady=5)
 
-    tk.Button(pencere, text="Geri Dön", command=pencere.destroy).pack(pady=10)
+    tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
 
 def yoneticileri_yonet():
     pencere = tk.Toplevel()
@@ -670,9 +680,14 @@ def yoneticileri_yonet():
         yonetici_objesi.yonetici_ekle(ad, sifre)
         liste.insert(tk.END, f"{ad}")
 
+    def btn_geri_don_click():
+        pencere.destroy
+        frm_yonetici_paneli()
+
+
     tk.Button(frame, text="Yönetici Ekle", command=ekle).grid(row=2, columnspan=2, pady=5)
 
-    tk.Button(pencere, text="Geri Dön", command=pencere.destroy).pack(pady=10)
+    tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
 
 if __name__ == "__main__":
     main()
