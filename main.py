@@ -1,17 +1,20 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import DateEntry
+
 from hasta_islemleri import HastaIslemleri
 from veritabani_kurulumu import Veritabani
 from oturum_islemleri import OturumIslemleri
 from doktor_islemleri import DoktorIslemleri
 from yonetici_islemleri import YoneticiIslemleri
+from log_islemleri import LogIslemleri
 
 veritabani_kurulumu_objesi = Veritabani()
 oturum_objesi = OturumIslemleri()
 hasta_objesi = HastaIslemleri()
 doktor_objesi = DoktorIslemleri()
 yonetici_objesi = YoneticiIslemleri()
+log_objesi = LogIslemleri()
 
 ''' Ana pencere fonksiyonuna diğer pencerelerden erişilebilmesi için tüm fonskiyonlardan ayrı olarak tanımlanmıştır.  '''
 ana_pencere = tk.Tk()
@@ -142,6 +145,7 @@ def frm_hasta_giris():
         gelen_cevap = oturum_objesi.hasta_oturum_ac(tc_no, sifre)
 
         if gelen_cevap == True:
+            log_objesi.log_kaydi_olustur("hasta", tc_no, "Kullanıcı giriş yaptı.")
             hasta_girisi_pencere.destroy()
             frm_hasta_paneli()
         elif gelen_cevap == "bos_alan_var":
@@ -205,6 +209,7 @@ def frm_hasta_paneli():
         
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
+            log_objesi.log_kaydi_olustur("hasta", hasta_id, "Kullanıcı çıkış yaptı.")
             hasta_paneli_pencere.destroy()
             ana_pencere.deiconify()
 
@@ -294,6 +299,7 @@ def frm_hasta_randevu_al():
         gelen_cevap = hasta_objesi.randevu_al(giris_yapilmis_hasta_id, doktor_id, secilen_tarih, saat_dakika, sikayet)
 
         if gelen_cevap == True:
+            
             messagebox.showinfo("Bilgi", "Randevunuz başarıyla alınmıştır.")
             hasta_randevu_al_pencere.destroy()
             frm_hasta_paneli()
@@ -338,13 +344,14 @@ def frm_doktor_giris():
     doktor_girisi_pencere.geometry("300x300")
     
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
-    def btn_giriş_yap_click():
+    def btn_giris_yap_click():
         tc_no = entry_tc_no.get()
         sifre = entry_sifre.get()
 
         gelen_cevap = oturum_objesi.doktor_oturum_ac(tc_no, sifre)
 
         if gelen_cevap == True:
+            log_objesi.log_kaydi_olustur("doktor", tc_no, "Kullanıcı giriş yaptı.")
             doktor_girisi_pencere.destroy()
             frm_doktor_paneli()
         elif gelen_cevap == "bos_alan_var":
@@ -373,7 +380,7 @@ def frm_doktor_giris():
     entry_sifre = tk.Entry(doktor_girisi_pencere, show="*")
     entry_sifre.pack(pady=5)
             
-    tk.Button(doktor_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giriş_yap_click).pack(pady=10)
+    tk.Button(doktor_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giris_yap_click).pack(pady=10)
     tk.Button(doktor_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Doktor girişi penceresi
 
@@ -446,6 +453,7 @@ def frm_doktor_paneli():
     
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
+            log_objesi.log_kaydi_olustur("doktor", giris_yapili_doktor_id, "Kullanıcı çıkış yaptı.")
             doktor_paneli_pencere.destroy()
             ana_pencere.deiconify()
 
@@ -468,13 +476,14 @@ def frm_yonetici_giris():
     yonetici_girisi_pencere.geometry("300x300")
     
     ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
-    def btn_giriş_yap_click():
+    def btn_giris_yap_click():
         kullanici_adi = entry_kullanici_adi.get()
         sifre = entry_sifre.get()
 
         gelen_cevap = oturum_objesi.yonetici_oturum_ac(kullanici_adi, sifre)
 
         if gelen_cevap == True:
+            log_objesi.log_kaydi_olustur("yonetici", kullanici_adi, "Kullanıcı giriş yaptı.")
             yonetici_girisi_pencere.destroy()
             frm_yonetici_paneli()
         elif gelen_cevap == "bos_alan_var":
@@ -501,7 +510,7 @@ def frm_yonetici_giris():
     entry_sifre = tk.Entry(yonetici_girisi_pencere, show="*")
     entry_sifre.pack(pady=5)
             
-    tk.Button(yonetici_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giriş_yap_click).pack(pady=10)
+    tk.Button(yonetici_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giris_yap_click).pack(pady=10)
     tk.Button(yonetici_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Doktor girişi penceresi
 
@@ -527,7 +536,10 @@ def frm_yonetici_paneli():
         yoneticileri_yonet()
 
     def btn_cikis_yap_click():
+        giris_yapili_yonetici_id = oturum_objesi.oturum["yonetici_id"]
+        
         if oturum_objesi.oturumu_kapat():
+            log_objesi.log_kaydi_olustur("doktor", giris_yapili_yonetici_id, "Kullanıcı çıkış yaptı.")
             yonetici_paneli_pencere.destroy()
             ana_pencere.deiconify()
 
