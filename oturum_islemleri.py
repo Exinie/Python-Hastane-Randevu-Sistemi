@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class OturumIslemleri:
 
     def __init__(self):
@@ -86,7 +87,7 @@ class OturumIslemleri:
             cursor = baglanti.cursor()
 
             cursor.execute("SELECT * FROM HASTALAR WHERE tc_no = ? AND sifre = ? LIMIT 1;",
-                (tc_no, sifre))
+                           (tc_no, sifre))
 
             girisi_basarili_kullanici_bilgisi = cursor.fetchone()
 
@@ -127,7 +128,7 @@ class OturumIslemleri:
             cursor = baglanti.cursor()
 
             cursor.execute("SELECT * FROM DOKTORLAR WHERE tc_no = ? AND sifre = ? LIMIT 1;",
-                (tc_no, sifre))
+                           (tc_no, sifre))
 
             girisi_basarili_kullanici_bilgisi = cursor.fetchone()
 
@@ -155,7 +156,7 @@ class OturumIslemleri:
         Sonuç gelirse, gelen verileri init metotunda bulunan oturum sözlüğüne ekler,
         ardından oturum sözlüğüne "kullanici_tipi" girdisi eklenip değeri "yonetici" olarak tanımlanır.
         """
-            
+
         if not kullanici_adi.strip() or not sifre.strip():
             return "bos_alan_var"
 
@@ -165,7 +166,7 @@ class OturumIslemleri:
             cursor = baglanti.cursor()
 
             cursor.execute("SELECT * FROM YONETICILER WHERE kullanici_adi = ? AND sifre = ? LIMIT 1;",
-                (kullanici_adi, sifre))
+                           (kullanici_adi, sifre))
 
             girisi_basarili_kullanici_bilgisi = cursor.fetchone()
 
@@ -184,9 +185,9 @@ class OturumIslemleri:
             return None
         finally:
             baglanti.close()
-    
+
     def oturumu_kapat(self):
-            
+        
         """
         Çağırıldığında init metotundaki oturum sözlüğünü temizleyen metot.
         """

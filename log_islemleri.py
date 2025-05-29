@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class LogIslemleri:
 
     def __init__(self):

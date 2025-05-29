@@ -1,9 +1,8 @@
-import os
 import csv
 from datetime import datetime
 
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 from tkcalendar import DateEntry
 
 from hasta_islemleri import HastaIslemleri
@@ -20,19 +19,23 @@ doktor_objesi = DoktorIslemleri()
 yonetici_objesi = YoneticiIslemleri()
 log_objesi = LogIslemleri()
 
-''' Ana pencere fonksiyonuna diğer pencerelerden erişilebilmesi için tüm fonskiyonlardan ayrı olarak tanımlanmıştır.  '''
+""" Ana pencere fonksiyonuna diğer pencerelerden erişilebilmesi için tüm fonskiyonlardan ayrı olarak tanımlanmıştır.  """
 ana_pencere = tk.Tk()
 
 # Ana pencere
+
+
 def main():
 
-    ''' Ana pencere özellikleri '''
+    """ Ana pencere özellikleri """
+
     ana_pencere.title("Doğuş Hastanesi")
     ana_pencere.geometry("300x300")
 
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
+
     def btn_hasta_girisi_click():
-        ana_pencere.withdraw() # Ana pencereyi gizler
+        ana_pencere.withdraw()  # Ana pencereyi gizler
         frm_hasta_giris()
 
     def btn_hasta_kayit_click():
@@ -46,13 +49,13 @@ def main():
     def btn_yonetici_giris_click():
         ana_pencere.withdraw()
         frm_yonetici_giris()
-   
 
-    ''' Üst başlık metni '''
+    """ Üst başlık metni """
+
     lblBaslik = tk.Label(ana_pencere, text="Doğuş Hastanesi", font=("Arial", 18))
     lblBaslik.pack(pady=20)  # Dikey boşluk
 
-    ''' İşlem butonları '''
+    """ İşlem butonları """
     btnHastaGirisYap = tk.Button(ana_pencere, text="Hasta Girişi", width=20, command=btn_hasta_girisi_click)
     btnHastaGirisYap.pack(pady=5)
 
@@ -68,19 +71,22 @@ def main():
     btnCikis = tk.Button(ana_pencere, text="Çıkış", width=20, command=ana_pencere.quit)
     btnCikis.pack(pady=5)
 
-    ''' Bu pencereyi kök pencere yapmak için mainloop ile döngüye alıyoruz '''
-    ana_pencere.mainloop()
+    ana_pencere.mainloop()  # Bu pencereyi kök pencere yapmak için mainloop ile döngüye alıyoruz
 # End Ana pencere
 
 # Hasta kayıt penceresi
+
+
 def frm_hasta_kayit():
 
-    ''' Hasta kayıt pencere özellikleri '''
-    hasta_kayit_pencere = tk.Toplevel() # Diğer pencerelerden önde açılmasını sağlar
+    """ Hasta kayıt pencere özellikleri """
+
+    hasta_kayit_pencere = tk.Toplevel()  # Diğer pencerelerden önde açılmasını sağlar
     hasta_kayit_pencere.title("Hasta Kayıt")
     hasta_kayit_pencere.geometry("300x350")
 
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
+
     def btn_kayit_ol_click():
         tc_no = entry_tc_no.get()
         sifre = entry_sifre.get()
@@ -89,7 +95,7 @@ def frm_hasta_kayit():
 
         gelen_cevap = oturum_objesi.hasta_kayit_et(tc_no, sifre, ad, soyad)
 
-        if gelen_cevap == True:
+        if gelen_cevap is True:
             messagebox.showinfo("Bilgi", "Hasta kaydı başarılı, giriş sayfasına aktarılıyorsunuz.")
             hasta_kayit_pencere.destroy()
             frm_hasta_giris()
@@ -101,18 +107,18 @@ def frm_hasta_kayit():
             messagebox.showwarning("Uyarı", "Girilen TC kimlik numarası zaten kayıtlı!")
 
     def btn_geri_don_click():
-        hasta_kayit_pencere.destroy() # Hasta kayıt penceresini sonlandırır
-        ana_pencere.deiconify() # Ana pencereyi geri görünür yapar
+        hasta_kayit_pencere.destroy()  # Hasta kayıt penceresini sonlandırır
+        ana_pencere.deiconify()  # Ana pencereyi geri görünür yapar
 
-    
+    """ Üst başlık metni """
 
-    ''' Üst başlık metni '''
     lbl_baslik = tk.Label(hasta_kayit_pencere, text="Hasta Kayıt", font=("Arial", 14))
     lbl_baslik.pack()
     lbl_alt_baslik = tk.Label(hasta_kayit_pencere, text="Lütfen kayıt için istenilen bilgileri doldurunuz", font=("Arial", 12))
     lbl_alt_baslik.pack(pady=20)
 
-    ''' Metin girişleri ve işlem butonları vs '''
+    """ Metin girişleri ve işlem butonları vs """
+
     tk.Label(hasta_kayit_pencere, text="TC Kimlik No:").pack()
     entry_tc_no = tk.Entry(hasta_kayit_pencere)
     entry_tc_no.pack()
@@ -134,21 +140,25 @@ def frm_hasta_kayit():
 # End Hasta kayıt penceresi
 
 # Hasta giriş penceresi
+
+
 def frm_hasta_giris():
 
-    ''' Hasta giriş pencere özellikleri '''
+    """ Hasta giriş pencere özellikleri """
+
     hasta_girisi_pencere = tk.Toplevel()
     hasta_girisi_pencere.title("Hasta Giriş")
     hasta_girisi_pencere.geometry("300x300")
 
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
+
     def btn_giris_yap_click():
         tc_no = entry_tc_no.get()
         sifre = entry_sifre.get()
 
         gelen_cevap = oturum_objesi.hasta_oturum_ac(tc_no, sifre)
 
-        if gelen_cevap == True:
+        if gelen_cevap is True:
             log_objesi.log_kaydi_olustur("hasta", tc_no, "Kullanıcı giriş yaptı.")
             hasta_girisi_pencere.destroy()
             frm_hasta_paneli()
@@ -163,13 +173,15 @@ def frm_hasta_giris():
         hasta_girisi_pencere.destroy()
         ana_pencere.deiconify()
 
-    ''' Üst başlık metni '''
+    """ Üst başlık metni """
+
     lbl_ana_baslik = tk.Label(hasta_girisi_pencere, text="Hasta Girişi", font=("Arial", 14))
     lbl_ana_baslik.pack()
     lbl_alt_baslik = tk.Label(hasta_girisi_pencere, text="Hasta kullanıcı bilgilerinizi giriniz", font=("Arial", 12))
     lbl_alt_baslik.pack(pady=20)
 
-    ''' Metin girişleri ve işlem butonları vs '''
+    """ Metin girişleri ve işlem butonları vs """
+
     tk.Label(hasta_girisi_pencere, text="TC Kimlik No:").pack()
     entry_tc_no = tk.Entry(hasta_girisi_pencere)
     entry_tc_no.pack()
@@ -183,34 +195,36 @@ def frm_hasta_giris():
 # End Hasta giriş penceresi
 
 # Hasta paneli
+
+
 def frm_hasta_paneli():
 
-    ''' Hasta paneli pencere özellikleri '''
+    """ Hasta paneli pencere özellikleri """
+
     hasta_paneli_pencere = tk.Toplevel()
     hasta_paneli_pencere.title("Hasta Paneli")
     hasta_paneli_pencere.geometry("350x410")
 
     hasta_id = oturum_objesi.oturum["hasta_id"]
 
-    randevu_listesi = hasta_objesi.randevu_listele(hasta_id)   
-    liste_etiket = tk.Label(hasta_paneli_pencere, text = "Randevularınız:")
-    liste_etiket.grid(row = 3, column = 0, columnspan = 3)
+    randevu_listesi = hasta_objesi.randevu_listele(hasta_id)
+    liste_etiket = tk.Label(hasta_paneli_pencere, text="Randevularınız:")
+    liste_etiket.grid(row=3, column=0, columnspan=3)
 
-    liste_basligi_label = tk.Label(hasta_paneli_pencere, text = f"{'Tarih':<12}     {'Saat':<8}     {'Şikayet':<25}     {'Doktor ID':<8}", font = ("Arial", 9, "bold"))
-    liste_basligi_label.grid(row=4, column=0, columnspan=3, pady=(5, 0)) 
+    liste_basligi_label = tk.Label(hasta_paneli_pencere, text=f"{'Tarih':<12}     {'Saat':<8}     {'Şikayet':<25}     {'Doktor ID':<8}", font = ("Arial", 9, "bold"))
+    liste_basligi_label.grid(row=4, column=0, columnspan=3, pady=(5, 0))
 
-    listeislemi = tk.Listbox(hasta_paneli_pencere, width = 50, height = 10)
+    listeislemi = tk.Listbox(hasta_paneli_pencere, width=50, height=10)
     for randevu in randevu_listesi:
         listeislemi.insert(tk.END, f"{randevu[0]} - {randevu[1]} - {randevu[2]} - {randevu[3]} - {randevu[4]}")
-    listeislemi.grid(row = 5, column = 0, columnspan = 3, padx = 10, pady = 10)
+    listeislemi.grid(row=5, column=0, columnspan=3, padx=10, padx=10)
     
-    
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
+
     def btn_randevu_al_click():
         hasta_paneli_pencere.destroy()
         frm_hasta_randevu_al()
-
-        
+ 
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
             log_objesi.log_kaydi_olustur("hasta", hasta_id, "Kullanıcı çıkış yaptı.")
@@ -247,42 +261,45 @@ def frm_hasta_paneli():
             messagebox.showerror("Hata", f"Bir hata oluştu: {str(hata)}")
 
         hasta_paneli_pencere.destroy()
-      
+    
+    """ Üst başlık metni """
 
-    ''' Üst başlık metni '''
     lbl_ana_baslik = tk.Label(hasta_paneli_pencere, text="Hasta Paneli", font=("Arial", 14))
-    lbl_ana_baslik.grid(row = 0, column = 0, columnspan = 3, pady = (10, 0))
+    lbl_ana_baslik.grid(row=0, column=0, columnspan=3, padx=(10, 0))
 
-    lbl_hos_geldiniz_metni = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz, " + oturum_objesi.oturum["ad"] + " " + oturum_objesi.oturum["soyad"] + "!", font=("Arial", 16, "bold"))
-    lbl_hos_geldiniz_metni.grid(row = 1, column = 0, columnspan = 3, pady = (5, 15))
+    lbl_hos_geldiniz_metni = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz ," + oturum_objesi.oturum["ad"] + " " + oturum_objesi.oturum["soyad"] + "!", font=("Arial", 16, "bold"))
+    lbl_hos_geldiniz_metni.grid(row=1, column=0, columnspan=3, padx=(5, 15))
 
-    ''' Metin girişleri ve işlem butonları vs '''
+    """ Metin girişleri ve işlem butonları vs """
    
     randevu_butonu = tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", command=btn_randevu_al_click)
-    randevu_butonu.grid(row = 8, column = 0, padx = 10, pady = 20)
+    randevu_butonu.grid(row=8, column=0, padx=10, padx=20)
     cikis_butonu = tk.Button(hasta_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click)
-    cikis_butonu.grid(row = 8, column = 1, padx = 10, pady = 20)
+    cikis_butonu.grid(row=8, column=1, padx=10, padx=20)
     randevu_iptal_butonu = tk.Button(hasta_paneli_pencere, text="Randevuyu iptal et", command=btn_randevu_iptal_et_click)
-    randevu_iptal_butonu.grid(row = 8, column = 2, padx = 10, pady = 20)
+    randevu_iptal_butonu.grid(row=8, column=2, padx=10, padx=20)
     
 # End Hasta paneli
 
 # Hasta randevu oluşturma penceresi
+
+
 def frm_hasta_randevu_al():
 
-    ''' Hasta randevu al pencere özellikleri '''
+    """ Hasta randevu al pencere özellikleri """
+
     hasta_randevu_al_pencere = tk.Toplevel()
     hasta_randevu_al_pencere.title("Randevu Al")
     hasta_randevu_al_pencere.geometry("300x350")
 
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
 
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
     def btn_geri_don_click():
         hasta_randevu_al_pencere.destroy()
         frm_hasta_paneli()
+     
+    """ Üst başlık metni """
 
-            
-    ''' Üst başlık metni '''
     lbl_ana_baslik = tk.Label(hasta_randevu_al_pencere, text="Randevu Al", font=("Arial", 14))
     lbl_ana_baslik.pack()
 
@@ -293,7 +310,6 @@ def frm_hasta_randevu_al():
     adsoyad_to_id = {f"{d[1]} {d[2]}": d[0] for d in doktor_listesi}
     doktor_adlari = list(adsoyad_to_id.keys())
     
-
     def btn_randevu_al_click():
         giris_yapilmis_hasta_id = oturum_objesi.oturum["hasta_id"]
         secilen_adsoyad = combobox.get()
@@ -304,7 +320,7 @@ def frm_hasta_randevu_al():
 
         gelen_cevap = hasta_objesi.randevu_al(giris_yapilmis_hasta_id, doktor_id, secilen_tarih, saat_dakika, sikayet)
 
-        if gelen_cevap == True:
+        if gelen_cevap is True:
             log_objesi.log_kaydi_olustur("hasta", giris_yapilmis_hasta_id, "Kullanıcı randevu aldı.")
             messagebox.showinfo("Bilgi", "Randevunuz başarıyla alınmıştır.")
             hasta_randevu_al_pencere.destroy()
@@ -312,15 +328,15 @@ def frm_hasta_randevu_al():
         elif gelen_cevap == "dolu":
             messagebox.showwarning("Uyarı", "Seçtiğiniz tarihte doktorunuz meşguldür.")
 
+    """ Metin girişleri ve işlem butonları vs """
 
-    ''' Metin girişleri ve işlem butonları vs '''
     tk.Label(hasta_randevu_al_pencere, text="Doktor tercih ediniz:").pack()
     combobox = ttk.Combobox(hasta_randevu_al_pencere, values=doktor_adlari, state="readonly")
     combobox.set("Doktor Seçin")
     combobox.pack(pady=5)
 
     tk.Label(hasta_randevu_al_pencere, text="Tarih:").pack()
-    tarih_secici = DateEntry(hasta_randevu_al_pencere, date_pattern = "dd-mm-yyyy")
+    tarih_secici = DateEntry(hasta_randevu_al_pencere, date_pattern="dd-mm-yyyy")
     tarih_secici.pack(pady=5)
 
     tk.Label(hasta_randevu_al_pencere, text="Saat:").pack()
@@ -335,28 +351,32 @@ def frm_hasta_randevu_al():
     entry_sikayet = tk.Entry(hasta_randevu_al_pencere)
     entry_sikayet.pack()
 
-    btn = tk.Button(hasta_randevu_al_pencere, text = "Randevu Al", command=btn_randevu_al_click)
+    btn = tk.Button(hasta_randevu_al_pencere, text="Randevu Al", command=btn_randevu_al_click)
     btn.pack()
 
-    tk.Button(hasta_randevu_al_pencere, text = "Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)             
+    tk.Button(hasta_randevu_al_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Hasta randevu oluşturma penceresi
 
 # Doktor girişi penceresi
+
+
 def frm_doktor_giris():
 
-    ''' Doktor girişi pencere özellikleri '''
+    """ Doktor girişi pencere özellikleri """
+
     doktor_girisi_pencere = tk.Toplevel()
     doktor_girisi_pencere.title("Doktor Giriş")
     doktor_girisi_pencere.geometry("300x300")
     
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
+
     def btn_giris_yap_click():
         tc_no = entry_tc_no.get()
         sifre = entry_sifre.get()
 
         gelen_cevap = oturum_objesi.doktor_oturum_ac(tc_no, sifre)
 
-        if gelen_cevap == True:
+        if gelen_cevap is True:
             log_objesi.log_kaydi_olustur("doktor", tc_no, "Kullanıcı giriş yaptı.")
             doktor_girisi_pencere.destroy()
             frm_doktor_paneli()
@@ -371,13 +391,15 @@ def frm_doktor_giris():
         doktor_girisi_pencere.destroy()
         ana_pencere.deiconify()
 
-    ''' Üst başlık metni '''
+    """ Üst başlık metni """
+
     lbl_ana_baslik = tk.Label(doktor_girisi_pencere, text="Doktor Girişi", font=("Arial", 14))
     lbl_ana_baslik.pack()
     lbl_alt_baslik = tk.Label(doktor_girisi_pencere, text="Doktor kullanıcı bilgilerinizi giriniz", font=("Arial", 12))
     lbl_alt_baslik.pack(pady=20)
             
-    ''' Metin girişleri ve işlem butonları vs '''
+    """ Metin girişleri ve işlem butonları vs """
+    
     tk.Label(doktor_girisi_pencere, text="TC Kimlik No:").pack()
     entry_tc_no = tk.Entry(doktor_girisi_pencere)
     entry_tc_no.pack(pady=5)
@@ -386,17 +408,19 @@ def frm_doktor_giris():
     entry_sifre = tk.Entry(doktor_girisi_pencere, show="*")
     entry_sifre.pack(pady=5)
             
-    tk.Button(doktor_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giris_yap_click).pack(pady=10)
+    tk.Button(doktor_girisi_pencere, text="Giriş Yap", width=15, command=btn_giris_yap_click).pack(pady=10)
     tk.Button(doktor_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Doktor girişi penceresi
 
 # Doktor paneli
+
+
 def frm_doktor_paneli():
     doktor_paneli_pencere = tk.Tk()
     doktor_paneli_pencere.title("Doktor Paneli")
     doktor_paneli_pencere.geometry("1000x400")
     
-    #Treeview Tablo
+    # Treeview Tablo
     tree = ttk.Treeview(doktor_paneli_pencere, columns=("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"), show="headings")
     for col in ("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"):
         tree.heading(col, text=col.capitalize())
@@ -424,7 +448,7 @@ def frm_doktor_paneli():
     def btn_rendevu_sil_click():
         randevu_id = secili_randevu_id()
         if randevu_id:
-         sonuc = doktor_objesi.randevu_sil(randevu_id)
+            sonuc = doktor_objesi.randevu_sil(randevu_id)
         if sonuc == "basarili":
             messagebox.showinfo("Başarılı", "Randevu Silindi.")
             log_objesi.log_kaydi_olustur("doktor", giris_yapili_doktor_id, "Randevu sildi.")  # Randevu Silme
@@ -433,8 +457,7 @@ def frm_doktor_paneli():
             messagebox.showwarning("Uyarı", "Randevu Bulunamadı.")
         else:
             messagebox.showerror("Hata", "Veritabanı hatası oluştu")
-
-                
+           
     def btn_randevu_onayla_click():
         randevu_id = secili_randevu_id()
         if randevu_id:
@@ -474,25 +497,26 @@ def frm_doktor_paneli():
     tk.Button(doktor_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
     
     randevulari_yukle()
-    doktor_paneli_pencere.mainloop()           
+    doktor_paneli_pencere.mainloop()
     
 # End Doktor paneli
 
+
 def frm_yonetici_giris():
 
-    ''' Yönetici giriş pencere özellikleri '''
+    """ Yönetici giriş pencere özellikleri """
     yonetici_girisi_pencere = tk.Toplevel()
     yonetici_girisi_pencere.title("Yönetici Giriş")
     yonetici_girisi_pencere.geometry("300x300")
     
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
     def btn_giris_yap_click():
         kullanici_adi = entry_kullanici_adi.get()
         sifre = entry_sifre.get()
 
         gelen_cevap = oturum_objesi.yonetici_oturum_ac(kullanici_adi, sifre)
 
-        if gelen_cevap == True:
+        if gelen_cevap is True:
             log_objesi.log_kaydi_olustur("yonetici", kullanici_adi, "Kullanıcı giriş yaptı.")
             yonetici_girisi_pencere.destroy()
             frm_yonetici_paneli()
@@ -505,13 +529,13 @@ def frm_yonetici_giris():
         yonetici_girisi_pencere.destroy()
         ana_pencere.deiconify()
 
-    ''' Üst başlık metni '''
+    """ Üst başlık metni """
     lbl_ana_baslik = tk.Label(yonetici_girisi_pencere, text="Yönetici Girişi", font=("Arial", 14))
     lbl_ana_baslik.pack()
     lbl_alt_baslik = tk.Label(yonetici_girisi_pencere, text="Yönetici kullanıcı bilgilerinizi giriniz", font=("Arial", 12))
     lbl_alt_baslik.pack(pady=20)
             
-    ''' Metin girişleri ve işlem butonları vs '''
+    """ Metin girişleri ve işlem butonları vs """
     tk.Label(yonetici_girisi_pencere, text="Kullanıcı adı:").pack()
     entry_kullanici_adi = tk.Entry(yonetici_girisi_pencere)
     entry_kullanici_adi.pack(pady=5)
@@ -520,19 +544,21 @@ def frm_yonetici_giris():
     entry_sifre = tk.Entry(yonetici_girisi_pencere, show="*")
     entry_sifre.pack(pady=5)
             
-    tk.Button(yonetici_girisi_pencere, text="Giriş Yap" , width=15, command=btn_giris_yap_click).pack(pady=10)
+    tk.Button(yonetici_girisi_pencere, text="Giriş Yap", width=15, command=btn_giris_yap_click).pack(pady=10)
     tk.Button(yonetici_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Doktor girişi penceresi
 
 # Yönetici paneli
+
+
 def frm_yonetici_paneli():
 
-    ''' Yönetici paneli pencere özellikleri '''
+    """ Yönetici paneli pencere özellikleri """
     yonetici_paneli_pencere = tk.Toplevel()
     yonetici_paneli_pencere.title("Yönetici Paneli")
     yonetici_paneli_pencere.geometry("1000x500")
 
-    ''' Buton vb öğelere tıklanınca gerçekleşecek işlemler '''
+    """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
     def btn_hastalari_yonet_click():
         yonetici_paneli_pencere.destroy()
         hastalari_yonet()
@@ -546,15 +572,27 @@ def frm_yonetici_paneli():
         yoneticileri_yonet()
 
     def btn_log_kaydi_disari_aktar_click():
-        giris_yapili_yonetici_id = oturum_objesi.oturum["yonetici_id"]
-        try:
-            
-            masaustu_dizini = os.path.join(os.environ["USERPROFILE"], "Desktop")
-            tarih_saat = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            dosya_ismi_final = os.path.join(masaustu_dizini, f"log_kayitlari_{tarih_saat}.csv")
 
-           
-            f = open(dosya_ismi_final, "w", newline="", encoding="utf-8")
+        """
+        Tabloda listelenen log kayıtlarını kullanıcının seçtiği dosya konumuna CSV formatında kaydeden fonksiyon.
+        """
+
+        giris_yapili_yonetici_id = oturum_objesi.oturum["yonetici_id"]
+
+        try:
+            dosya_adi = f"log_kayitlari_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
+
+            dosya_yolu = filedialog.asksaveasfilename(
+                defaultextension=".csv",
+                filetypes=[("CSV dosyası", "*.csv")],
+                initialfile=dosya_adi,
+                title="Log dosyasını kaydet"
+            )
+
+            if not dosya_yolu:
+                return None
+
+            f = open(dosya_yolu, "w", newline="", encoding="utf-8")
             writer = csv.writer(f)
             writer.writerow(["ID", "Kullanıcı Türü", "Kullanıcı ID", "İşlem", "Tarih ve Saat"])
 
@@ -563,7 +601,7 @@ def frm_yonetici_paneli():
 
             f.close()
 
-            messagebox.showinfo("Bilgi", f"Günlük kayıtları masaüstüne kaydedildi:\n{dosya_ismi_final}")
+            messagebox.showinfo("Bilgi", f"Günlük kayıtları \n{dosya_yolu} \n konumuna kaydedildi.")
             log_objesi.log_kaydi_olustur("yonetici", giris_yapili_yonetici_id, "log kaydını dışarı aktardı.")
         except Exception as e:
             messagebox.showerror("Hata", f"{e}")
@@ -576,15 +614,14 @@ def frm_yonetici_paneli():
             yonetici_paneli_pencere.destroy()
             ana_pencere.deiconify()
 
-    
-    ''' Üst başlık metni '''  
+    """ Üst başlık metni """
     lbl_ana_baslik = tk.Label(yonetici_paneli_pencere, text="Yönetici Paneli", font=("Arial", 14))
     lbl_ana_baslik.pack()
 
     lbl_hos_geldiniz_metni = tk.Label(yonetici_paneli_pencere, text="Hoş geldiniz " + oturum_objesi.oturum["kullanici_adi"], font=("Arial", 12))
     lbl_hos_geldiniz_metni.pack(pady=20)
 
-    ''' Metin girişleri ve işlem butonları vs '''
+    """ Metin girişleri ve işlem butonları vs """
     tk.Button(yonetici_paneli_pencere, text="Hastaları Yönet", command=btn_hastalari_yonet_click).pack(pady=2)
     tk.Button(yonetici_paneli_pencere, text="Doktorları Yönet", command=btn_doktorlari_yonet_click).pack(pady=2)
     tk.Button(yonetici_paneli_pencere, text="Yöneticileri Yönet", command=btn_yoneticileri_yonet_click).pack(pady=2)
@@ -615,6 +652,7 @@ def frm_yonetici_paneli():
     tk.Button(yonetici_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
 # End yönetici paneli
 
+
 def hastalari_yonet():
     pencere = tk.Toplevel()
     pencere.title("Hastaları Yönet")
@@ -623,7 +661,7 @@ def hastalari_yonet():
     Hasta listesi
     """
     
-    liste = tk.Listbox(pencere,width=50)
+    liste = tk.Listbox(pencere, width=50)
     liste.pack(pady=10)
 
     hastalar = yonetici_objesi.hastalari_listele()
@@ -645,12 +683,16 @@ def hastalari_yonet():
         hasta_id = hastalar[secili[0]][0]
         yonetici_objesi.hasta_sil(hasta_id)
         liste.delete(secili)
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> e8e8860 (pep8 standartı uyumluluğu arttırıldı.)
     def btn_geri_don_click():
         pencere.destroy()
         frm_yonetici_paneli()
 
-    tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)   
+    tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)
     
     tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
 
@@ -727,6 +769,7 @@ def doktorları_yonet():
 
     tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
 
+
 def yoneticileri_yonet():
     pencere = tk.Toplevel()
     pencere.title("Yöneticileri Yönet")
@@ -796,8 +839,8 @@ def yoneticileri_yonet():
         frm_yonetici_paneli()
 
     tk.Button(frame, text="Yönetici Ekle", command=ekle).grid(row=2, columnspan=2, pady=5)
-
     tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
+
 
 if __name__ == "__main__":
     main()
