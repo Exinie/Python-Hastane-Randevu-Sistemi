@@ -3,8 +3,9 @@ import sqlite3
 
 class HastaIslemleri:
     def randevu_al(self, hasta_id, doktor_id, tarih, saat, sikayet):
-        '''
-        '''
+        """
+        Belirtilen doktor, tarih, saat ve şikayete göre randevu alır.
+        """
         try:
             # Veritabanına bağlan
             conn = sqlite3.connect("veritabani.db")
@@ -35,9 +36,9 @@ class HastaIslemleri:
             conn.close()
 
     def doktor_listele(self):
-        '''
-        doktor listesini oluşturabilmek için oluşturulan blok
-        '''
+        """
+        Bütün doktorları listelemek adına yazılmış bir fonksiyondur.
+        """
         try:
             conn = sqlite3.connect("veritabani.db")
             cursor = conn.cursor()
@@ -56,9 +57,9 @@ class HastaIslemleri:
             conn.close()
 
     def randevu_listele(self, hasta_id):
-        '''
-        randevu görüntülemek için
-        '''
+        """
+        Bütün randevuları listelemek adına yazılmış bir fonksiyondur.
+        """
         try:
             conn = sqlite3.connect("veritabani.db")
             cursor = conn.cursor()
@@ -77,9 +78,9 @@ class HastaIslemleri:
             conn.close()
 
     def randevu_sil(self, randevu_id):
-        '''
-        randevuları silmek için oluşturulan blok
-        '''
+        """
+        Belirlenen randevuyu silmek için oluşturulmuş bir fonksiyondur.
+        """
         try:
             conn = sqlite3.connect("veritabani.db")
             cursor = conn.cursor()
