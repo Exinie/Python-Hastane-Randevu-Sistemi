@@ -620,7 +620,7 @@ def hastalari_yonet():
     pencere.title("Hastaları Yönet")
 
     """
-    #hasta listesi
+    Hasta listesi
     """
     
     liste = tk.Listbox(pencere,width=50)
@@ -630,11 +630,12 @@ def hastalari_yonet():
     for h in hastalar:
         liste.insert(tk.END, f"{h[0]} - {h[1]} {h[2]}")
 
-    """
-    #seçilen hastayı silen fonksiyon
-    """
-
     def sil():
+
+        """
+        Seçilen hastayı silen fonksiyon
+        """
+
         secili = liste.curselection()
         if not secili:
             messagebox.showwarning("uyarı", "Lütfen silinecek hastayı seçin.")
@@ -645,7 +646,6 @@ def hastalari_yonet():
         yonetici_objesi.hasta_sil(hasta_id)
         liste.delete(secili)
 
-        
     def btn_geri_don_click():
         pencere.destroy()
         frm_yonetici_paneli()
@@ -654,13 +654,12 @@ def hastalari_yonet():
     
     tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
 
-
 def doktorları_yonet():
     pencere = tk.Toplevel()
     pencere.title("Doktorları Yönet")
 
     """
-    #doktor listesi
+    Doktor listesi
     """
     
     liste = tk.Listbox(pencere, width=60)
@@ -672,11 +671,12 @@ def doktorları_yonet():
 
     entries = {}
 
-    """
-    #seçilen doktoru silen fonksiyon
-    """
-
     def sil():
+
+        """
+        Seçilen doktoru silen fonksiyon
+        """
+
         secili = liste.curselection()
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen silinecek doktoru seçin.")
@@ -688,11 +688,12 @@ def doktorları_yonet():
         liste.delete(secili[0])
         messagebox.showinfo("Başarılı", "Doktor silindi.")
 
-    """
-    Yeni doktor ekleyen fonksiyon
-    """
-
     def ekle():
+
+        """
+        Yeni doktor ekleyen fonksiyon
+        """
+
         veriler = [entries[x].get() for x in ["tc", "ad", "soyad", "şifre", "uzmanlık"]]
         if not all(veriler):
             messagebox.showwarning("Uyarı", "Tüm alanlar doldurulmalı.")
@@ -703,7 +704,6 @@ def doktorları_yonet():
         liste.insert(tk.END, f"{veriler[0]} - {veriler[1]} {veriler[2]} - {veriler[4]}")
         messagebox.showinfo("Başarılı", "Doktor eklendi.")
 
-    
     tk.Button(pencere, text="Doktoru Sil", command=sil).pack(pady=5)
 
     """
@@ -718,7 +718,6 @@ def doktorları_yonet():
         e = tk.Entry(frame)
         e.grid(row=i, column=1)
         entries[etiket.lower()] = e
-
 
     def btn_geri_don_click():
         pencere.destroy()
@@ -743,11 +742,12 @@ def yoneticileri_yonet():
     for y in yoneticiler:
         liste.insert(tk.END, f"{y[0]} - {y[1]}")
 
-    """
-    Seçilen yöneticiyi silen fonksiyon
-    """
-
     def sil():
+
+        """
+        Seçilen yöneticiyi silen fonksiyon
+        """
+
         secili = liste.curselection()
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen silinecek yöneticiyi seçin.")
@@ -775,11 +775,12 @@ def yoneticileri_yonet():
     entry_sifre = tk.Entry(frame, show="*")
     entry_sifre.grid(row=1, column=1)
 
-    """
-    Yeni yönetici ekleyen fonksiyon
-    """
-
     def ekle():
+
+        """
+        Yeni yönetici ekleyen fonksiyon
+        """
+
         ad = entry_ad.get()
         sifre = entry_sifre.get()
         if not ad or not sifre:
@@ -793,7 +794,6 @@ def yoneticileri_yonet():
     def btn_geri_don_click():
         pencere.destroy()
         frm_yonetici_paneli()
-
 
     tk.Button(frame, text="Yönetici Ekle", command=ekle).grid(row=2, columnspan=2, pady=5)
 
