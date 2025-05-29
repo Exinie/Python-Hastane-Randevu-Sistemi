@@ -217,7 +217,7 @@ def frm_hasta_paneli():
     listeislemi = tk.Listbox(hasta_paneli_pencere, width=50, height=10)
     for randevu in randevu_listesi:
         listeislemi.insert(tk.END, f"{randevu[0]} - {randevu[1]} - {randevu[2]} - {randevu[3]} - {randevu[4]}")
-    listeislemi.grid(row=5, column=0, columnspan=3, padx=10, padx=10)
+    listeislemi.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
     
     """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
 
@@ -273,11 +273,11 @@ def frm_hasta_paneli():
     """ Metin girişleri ve işlem butonları vs """
    
     randevu_butonu = tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", command=btn_randevu_al_click)
-    randevu_butonu.grid(row=8, column=0, padx=10, padx=20)
+    randevu_butonu.grid(row=8, column=0, padx=10, pady=20)
     cikis_butonu = tk.Button(hasta_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click)
-    cikis_butonu.grid(row=8, column=1, padx=10, padx=20)
+    cikis_butonu.grid(row=8, column=1, padx=10, pady=20)
     randevu_iptal_butonu = tk.Button(hasta_paneli_pencere, text="Randevuyu iptal et", command=btn_randevu_iptal_et_click)
-    randevu_iptal_butonu.grid(row=8, column=2, padx=10, padx=20)
+    randevu_iptal_butonu.grid(row=8, column=2, padx=10, pady=20)
     
 # End Hasta paneli
 
