@@ -74,6 +74,7 @@ class Veritabani:
         print(f"{kullanici_adi} isimli yönetici eklendi.")
 
     def _randevular_tablosu(self):
+        """ Randevular tablosunu oluşturma fonksiyonu """
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS RANDEVULAR (
             randevu_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -88,6 +89,7 @@ class Veritabani:
         )
         ''')
     def _log_tablosu(self):
+        """ Log kayıtları tablosu için olan kod bloğu """
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS LOG_KAYITLARI (
             log_id INTEGER PRIMARY KEY AUTOINCREMENT,
