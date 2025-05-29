@@ -1,7 +1,10 @@
 import sqlite3
 
+
 class HastaIslemleri:
     def randevu_al(self, hasta_id, doktor_id, tarih, saat, sikayet):
+        '''
+        '''
         try:
             # Veritabanına bağlan
             conn = sqlite3.connect("veritabani.db")
@@ -31,15 +34,17 @@ class HastaIslemleri:
         finally:
             conn.close()
 
-    # doktor listesini oluşturabilmek için oluşturulan blok
     def doktor_listele(self):
+        '''
+        doktor listesini oluşturabilmek için oluşturulan blok
+        '''
         try:
             conn = sqlite3.connect("veritabani.db")
             cursor = conn.cursor()
 
             cursor.execute('''
                 SELECT doktor_id, ad, soyad FROM DOKTORLAR
-            ''')             
+            ''')
 
             doktorlar = cursor.fetchall()
             return doktorlar
@@ -49,9 +54,11 @@ class HastaIslemleri:
 
         finally:
             conn.close()
-    
-    # randevu görüntülemek için
+
     def randevu_listele(self, hasta_id):
+        '''
+        randevu görüntülemek için
+        '''
         try:
             conn = sqlite3.connect("veritabani.db")
             cursor = conn.cursor()
@@ -68,8 +75,11 @@ class HastaIslemleri:
 
         finally:
             conn.close()
-    # randevuları silmek için oluşturulan blok
+
     def randevu_sil(self, randevu_id):
+        '''
+        randevuları silmek için oluşturulan blok
+        '''
         try:
             conn = sqlite3.connect("veritabani.db")
             cursor = conn.cursor()
@@ -79,9 +89,9 @@ class HastaIslemleri:
             ''', (randevu_id,))
             conn.commit()
             return "Randevu başarıyla iptal edilmiştir."
-        
+
         except Exception as hata:
             return f"Hata oluştu: {str(hata)}"
-        
+
         finally:
             conn.close()

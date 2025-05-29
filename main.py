@@ -41,7 +41,7 @@ def main():
     def btn_hasta_kayit_click():
         ana_pencere.withdraw()
         frm_hasta_kayit()
-    
+
     def btn_doktor_giris_click():
         ana_pencere.withdraw()
         frm_doktor_giris()
@@ -134,7 +134,7 @@ def frm_hasta_kayit():
     tk.Label(hasta_kayit_pencere, text="Şifre:").pack()
     entry_sifre = tk.Entry(hasta_kayit_pencere, show="*")
     entry_sifre.pack()
-    
+
     tk.Button(hasta_kayit_pencere, text="Kayıt Ol", width=15, command=btn_kayit_ol_click).pack(pady=10)
     tk.Button(hasta_kayit_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Hasta kayıt penceresi
@@ -168,7 +168,7 @@ def frm_hasta_giris():
             messagebox.showwarning("Uyarı", "Geçersiz TC kimlik numara formatı!")
         elif gelen_cevap == "yanlis_tc_sifre":
             messagebox.showwarning("Uyarı", "TC kimlik numaranız veya şifreniz yanlış!")
-    
+
     def btn_geri_don_click():
         hasta_girisi_pencere.destroy()
         ana_pencere.deiconify()
@@ -189,7 +189,7 @@ def frm_hasta_giris():
     tk.Label(hasta_girisi_pencere, text="Şifre:").pack()
     entry_sifre = tk.Entry(hasta_girisi_pencere, show="*")
     entry_sifre.pack()
-    
+
     tk.Button(hasta_girisi_pencere, text="Giriş Yap", width=15, command=btn_giris_yap_click).pack(pady=10)
     tk.Button(hasta_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Hasta giriş penceresi
@@ -218,13 +218,13 @@ def frm_hasta_paneli():
     for randevu in randevu_listesi:
         listeislemi.insert(tk.END, f"{randevu[0]} - {randevu[1]} - {randevu[2]} - {randevu[3]} - {randevu[4]}")
     listeislemi.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
-    
+
     """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
 
     def btn_randevu_al_click():
         hasta_paneli_pencere.destroy()
         frm_hasta_randevu_al()
- 
+
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
             log_objesi.log_kaydi_olustur("hasta", hasta_id, "Kullanıcı çıkış yaptı.")
@@ -243,17 +243,17 @@ def frm_hasta_paneli():
             if not secili_durumda:
                 messagebox.showwarning("Uyarı", "Lütfen iptal etmek istediğiniz randevuyu belirtiniz.")
                 return
-            
+
             secilen = listeislemi.get(secili_durumda[0])
             randevu_id = int(secilen.split(" - ")[0])
 
             sonuc = hasta_objesi.randevu_sil(randevu_id)
 
             if sonuc == "Randevu başarıyla iptal edilmiştir.":
-               log_objesi.log_kaydi_olustur("hasta",  giris_yapilmis_hasta_id, "Kullanıcı randevu iptal etti.")
-               messagebox.showinfo("Başarılı", sonuc)
-               hasta_paneli_pencere.destroy()
-               frm_hasta_paneli()
+                log_objesi.log_kaydi_olustur("hasta",  giris_yapilmis_hasta_id, "Kullanıcı randevu iptal etti.")
+                messagebox.showinfo("Başarılı", sonuc)
+                hasta_paneli_pencere.destroy()
+                frm_hasta_paneli()
             else:
                 messagebox.showerror("Hata", sonuc)
 
@@ -261,7 +261,7 @@ def frm_hasta_paneli():
             messagebox.showerror("Hata", f"Bir hata oluştu: {str(hata)}")
 
         hasta_paneli_pencere.destroy()
-    
+
     """ Üst başlık metni """
 
     lbl_ana_baslik = tk.Label(hasta_paneli_pencere, text="Hasta Paneli", font=("Arial", 14))
@@ -271,14 +271,14 @@ def frm_hasta_paneli():
     lbl_hos_geldiniz_metni.grid(row=1, column=0, columnspan=3, padx=(5, 15))
 
     """ Metin girişleri ve işlem butonları vs """
-   
+
     randevu_butonu = tk.Button(hasta_paneli_pencere, text="Randevu Oluştur", command=btn_randevu_al_click)
     randevu_butonu.grid(row=8, column=0, padx=10, pady=20)
     cikis_butonu = tk.Button(hasta_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click)
     cikis_butonu.grid(row=8, column=1, padx=10, pady=20)
     randevu_iptal_butonu = tk.Button(hasta_paneli_pencere, text="Randevuyu iptal et", command=btn_randevu_iptal_et_click)
     randevu_iptal_butonu.grid(row=8, column=2, padx=10, pady=20)
-    
+
 # End Hasta paneli
 
 # Hasta randevu oluşturma penceresi
@@ -297,7 +297,7 @@ def frm_hasta_randevu_al():
     def btn_geri_don_click():
         hasta_randevu_al_pencere.destroy()
         frm_hasta_paneli()
-     
+
     """ Üst başlık metni """
 
     lbl_ana_baslik = tk.Label(hasta_randevu_al_pencere, text="Randevu Al", font=("Arial", 14))
@@ -309,7 +309,7 @@ def frm_hasta_randevu_al():
     # ID ve AdSoyad eşleşmesi (basit sözlük)
     adsoyad_to_id = {f"{d[1]} {d[2]}": d[0] for d in doktor_listesi}
     doktor_adlari = list(adsoyad_to_id.keys())
-    
+
     def btn_randevu_al_click():
         giris_yapilmis_hasta_id = oturum_objesi.oturum["hasta_id"]
         secilen_adsoyad = combobox.get()
@@ -367,7 +367,7 @@ def frm_doktor_giris():
     doktor_girisi_pencere = tk.Toplevel()
     doktor_girisi_pencere.title("Doktor Giriş")
     doktor_girisi_pencere.geometry("300x300")
-    
+
     """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
 
     def btn_giris_yap_click():
@@ -386,7 +386,7 @@ def frm_doktor_giris():
             messagebox.showwarning("Uyarı", "Geçersiz TC kimlik numara formatı!")
         elif gelen_cevap == "yanlis_tc_sifre":
             messagebox.showwarning("Uyarı", "TC kimlik numaranız veya şifreniz yanlış!")
-    
+
     def btn_geri_don_click():
         doktor_girisi_pencere.destroy()
         ana_pencere.deiconify()
@@ -397,17 +397,17 @@ def frm_doktor_giris():
     lbl_ana_baslik.pack()
     lbl_alt_baslik = tk.Label(doktor_girisi_pencere, text="Doktor kullanıcı bilgilerinizi giriniz", font=("Arial", 12))
     lbl_alt_baslik.pack(pady=20)
-            
+
     """ Metin girişleri ve işlem butonları vs """
-    
+
     tk.Label(doktor_girisi_pencere, text="TC Kimlik No:").pack()
     entry_tc_no = tk.Entry(doktor_girisi_pencere)
     entry_tc_no.pack(pady=5)
-            
+
     tk.Label(doktor_girisi_pencere, text="Şifre:").pack()
     entry_sifre = tk.Entry(doktor_girisi_pencere, show="*")
     entry_sifre.pack(pady=5)
-            
+
     tk.Button(doktor_girisi_pencere, text="Giriş Yap", width=15, command=btn_giris_yap_click).pack(pady=10)
     tk.Button(doktor_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Doktor girişi penceresi
@@ -419,14 +419,14 @@ def frm_doktor_paneli():
     doktor_paneli_pencere = tk.Tk()
     doktor_paneli_pencere.title("Doktor Paneli")
     doktor_paneli_pencere.geometry("1000x400")
-    
+
     # Treeview Tablo
     tree = ttk.Treeview(doktor_paneli_pencere, columns=("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"), show="headings")
     for col in ("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"):
         tree.heading(col, text=col.capitalize())
         tree.column(col, width=100)
     tree.pack(fill="both", expand=True)
-    
+
     giris_yapili_doktor_id = oturum_objesi.oturum["doktor_id"]
 
     def randevulari_yukle():
@@ -437,7 +437,7 @@ def frm_doktor_paneli():
                 tree.insert("", "end", values=randevu)
         else:
             messagebox.showerror("Hata", "Veritabanı hatası oluştu.")
-            
+
     def secili_randevu_id():
         secim = tree.selection()
         if not secim:
@@ -457,7 +457,7 @@ def frm_doktor_paneli():
             messagebox.showwarning("Uyarı", "Randevu Bulunamadı.")
         else:
             messagebox.showerror("Hata", "Veritabanı hatası oluştu")
-           
+
     def btn_randevu_onayla_click():
         randevu_id = secili_randevu_id()
         if randevu_id:
@@ -470,7 +470,7 @@ def frm_doktor_paneli():
                 messagebox.showwarning("Uyarı", "Randevu bulunamadı.")
             else:
                 messagebox.showerror("Hata", "Veritabanı hatası oluştu.")
-    
+
     def btn_randevu_tamamla_click():
         randevu_id = secili_randevu_id()
         if randevu_id:
@@ -483,7 +483,7 @@ def frm_doktor_paneli():
                 messagebox.showwarning("Uyarı", "Randevu bulunamadı.")
             else:
                 messagebox.showerror("Hata", "Veritabanı hatası oluştu.")
-    
+
     def btn_cikis_yap_click():
         if oturum_objesi.oturumu_kapat():
             log_objesi.log_kaydi_olustur("doktor", giris_yapili_doktor_id, "Kullanıcı çıkış yaptı.")
@@ -495,10 +495,10 @@ def frm_doktor_paneli():
     tk.Button(doktor_paneli_pencere, text='"Onaylandı" olarak işaretle', command=btn_randevu_onayla_click).pack(pady=3)
     tk.Button(doktor_paneli_pencere, text='"Tamamlandı" olarak işaretle', command=btn_randevu_tamamla_click).pack(pady=3)
     tk.Button(doktor_paneli_pencere, text="Çıkış Yap", command=btn_cikis_yap_click).pack(pady=2)
-    
+
     randevulari_yukle()
     doktor_paneli_pencere.mainloop()
-    
+
 # End Doktor paneli
 
 
@@ -508,7 +508,7 @@ def frm_yonetici_giris():
     yonetici_girisi_pencere = tk.Toplevel()
     yonetici_girisi_pencere.title("Yönetici Giriş")
     yonetici_girisi_pencere.geometry("300x300")
-    
+
     """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
     def btn_giris_yap_click():
         kullanici_adi = entry_kullanici_adi.get()
@@ -524,7 +524,7 @@ def frm_yonetici_giris():
             messagebox.showwarning("Uyarı", "Lütfen tüm alanları doldurunuz")
         elif gelen_cevap == "yanlis_kullaniciadi_sifre":
             messagebox.showwarning("Uyarı", "Kullanıcı adınız veya şifreniz yanlış!")
-    
+
     def btn_geri_don_click():
         yonetici_girisi_pencere.destroy()
         ana_pencere.deiconify()
@@ -534,16 +534,16 @@ def frm_yonetici_giris():
     lbl_ana_baslik.pack()
     lbl_alt_baslik = tk.Label(yonetici_girisi_pencere, text="Yönetici kullanıcı bilgilerinizi giriniz", font=("Arial", 12))
     lbl_alt_baslik.pack(pady=20)
-            
+
     """ Metin girişleri ve işlem butonları vs """
     tk.Label(yonetici_girisi_pencere, text="Kullanıcı adı:").pack()
     entry_kullanici_adi = tk.Entry(yonetici_girisi_pencere)
     entry_kullanici_adi.pack(pady=5)
-            
+
     tk.Label(yonetici_girisi_pencere, text="Şifre:").pack()
     entry_sifre = tk.Entry(yonetici_girisi_pencere, show="*")
     entry_sifre.pack(pady=5)
-            
+
     tk.Button(yonetici_girisi_pencere, text="Giriş Yap", width=15, command=btn_giris_yap_click).pack(pady=10)
     tk.Button(yonetici_girisi_pencere, text="Geri Dön", width=15, command=btn_geri_don_click).pack(pady=10)
 # End Doktor girişi penceresi
@@ -562,7 +562,7 @@ def frm_yonetici_paneli():
     def btn_hastalari_yonet_click():
         yonetici_paneli_pencere.destroy()
         hastalari_yonet()
-    
+
     def btn_doktorlari_yonet_click():
         yonetici_paneli_pencere.destroy()
         doktorları_yonet()
@@ -608,7 +608,7 @@ def frm_yonetici_paneli():
 
     def btn_cikis_yap_click():
         giris_yapili_yonetici_id = oturum_objesi.oturum["yonetici_id"]
-        
+
         if oturum_objesi.oturumu_kapat():
             log_objesi.log_kaydi_olustur("doktor", giris_yapili_yonetici_id, "Kullanıcı çıkış yaptı.")
             yonetici_paneli_pencere.destroy()
@@ -641,7 +641,7 @@ def frm_yonetici_paneli():
     tree.column("tarih_saat", width=150, anchor="w")
 
     tree.pack(fill=tk.BOTH, expand=True)
-    
+
     veriler = log_objesi.log_kayitlarini_listele()
 
     if veriler:
@@ -660,7 +660,7 @@ def hastalari_yonet():
     """
     Hasta listesi
     """
-    
+
     liste = tk.Listbox(pencere, width=50)
     liste.pack(pady=10)
 
@@ -684,14 +684,14 @@ def hastalari_yonet():
         yonetici_objesi.hasta_sil(hasta_id)
         liste.delete(secili)
 
-      
     def btn_geri_don_click():
         pencere.destroy()
         frm_yonetici_paneli()
 
     tk.Button(pencere, text="Hastayı Sil", command=sil).pack(pady=5)
-    
+
     tk.Button(pencere, text="Geri Dön", command=btn_geri_don_click).pack(pady=10)
+
 
 def doktorları_yonet():
     pencere = tk.Toplevel()
@@ -700,7 +700,7 @@ def doktorları_yonet():
     """
     Doktor listesi
     """
-    
+
     liste = tk.Listbox(pencere, width=60)
     liste.pack(pady=10)
 
@@ -777,7 +777,7 @@ def yoneticileri_yonet():
 
     liste = tk.Listbox(pencere, width=50)
     liste.pack(pady=10)
- 
+
     yoneticiler = yonetici_objesi.yoneticileri_listele()
     for y in yoneticiler:
         liste.insert(tk.END, f"{y[0]} - {y[1]}")

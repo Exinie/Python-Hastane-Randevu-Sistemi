@@ -1,10 +1,10 @@
 import sqlite3
 
+
 class DoktorIslemleri:
     """
     Doktorlara ait randevu işlemlerini yöneten sınıf.
     """
-
     def __init__(self):
         """
         Veritabanı dosyasının yolunu belirler.
