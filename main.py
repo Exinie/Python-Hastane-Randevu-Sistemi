@@ -418,14 +418,16 @@ def frm_doktor_paneli():
     def btn_rendevu_sil_click():
         randevu_id = secili_randevu_id()
         if randevu_id:
-            sonuc = doktor_objesi.randevu_sil(randevu_id)
-            if sonuc == "basarili":
-                messagebox.showinfo("başarılı", "Randevu Silindi.")
-                randevulari_yukle()
-            elif sonuc == "randevu_bulunamadi":
-                messagebox.showwarning("Uyarı", "Randevu Bulunamadı.")
-            else:
-                messagebox.showerror("Hata", "Veritabanı hatası oluştu")
+         sonuc = doktor_objesi.randevu_sil(randevu_id)
+        if sonuc == "basarili":
+            messagebox.showinfo("Başarılı", "Randevu Silindi.")
+            log_objesi.log_kaydi_olustur("doktor", giris_yapili_doktor_id, "Randevu sildi.")  # Randevu Silme
+            randevulari_yukle()
+        elif sonuc == "randevu_bulunamadi":
+            messagebox.showwarning("Uyarı", "Randevu Bulunamadı.")
+        else:
+            messagebox.showerror("Hata", "Veritabanı hatası oluştu")
+
                 
     def btn_randevu_onayla_click():
         randevu_id = secili_randevu_id()
@@ -433,6 +435,7 @@ def frm_doktor_paneli():
             sonuc = doktor_objesi.randevu_durum_guncelle(randevu_id, "Onaylandı")
             if sonuc == "basarili":
                 messagebox.showinfo("Başarılı", "Randevu onaylandı olarak işaretlendi.")
+                log_objesi.log_kaydi_olustur("doktor", giris_yapili_doktor_id, "Randevu onayladı.")  # Randevu Onaylama
                 randevulari_yukle()
             elif sonuc == "randevu_bulunamadi":
                 messagebox.showwarning("Uyarı", "Randevu bulunamadı.")
@@ -445,6 +448,7 @@ def frm_doktor_paneli():
             sonuc = doktor_objesi.randevu_durum_guncelle(randevu_id, "Tamamlandı")
             if sonuc == "basarili":
                 messagebox.showinfo("Başarılı", "Randevu tamamlandı olarak işaretlendi.")
+                log_objesi.log_kaydi_olustur("doktor", giris_yapili_doktor_id, "Randevuyu tamamlandı olarak işaretlendi.")
                 randevulari_yukle()
             elif sonuc == "randevu_bulunamadi":
                 messagebox.showwarning("Uyarı", "Randevu bulunamadı.")
