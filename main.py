@@ -571,7 +571,10 @@ def hastalari_yonet():
     pencere = tk.Toplevel()
     pencere.title("Hastaları Yönet")
 
+    """
     #hasta listesi
+    """
+    
     liste = tk.Listbox(pencere,width=50)
     liste.pack(pady=10)
 
@@ -579,7 +582,10 @@ def hastalari_yonet():
     for h in hastalar:
         liste.insert(tk.END, f"{h[0]} - {h[1]} {h[2]}")
 
+    """
     #seçilen hastayı silen fonksiyon
+    """
+
     def sil():
         secili = liste.curselection()
         if not secili:
@@ -605,7 +611,10 @@ def doktorları_yonet():
     pencere = tk.Toplevel()
     pencere.title("Doktorları Yönet")
 
+    """
     #doktor listesi
+    """
+    
     liste = tk.Listbox(pencere, width=60)
     liste.pack(pady=10)
 
@@ -615,7 +624,10 @@ def doktorları_yonet():
 
     entries = {}
 
- #seçilen doktoru silen fonksiyon
+    """
+    #seçilen doktoru silen fonksiyon
+    """
+
     def sil():
         secili = liste.curselection()
         if not secili:
@@ -628,7 +640,10 @@ def doktorları_yonet():
         liste.delete(secili[0])
         messagebox.showinfo("Başarılı", "Doktor silindi.")
 
-     # Yeni doktor ekleyen fonksiyon
+    """
+    Yeni doktor ekleyen fonksiyon
+    """
+
     def ekle():
         veriler = [entries[x].get() for x in ["tc", "ad", "soyad", "şifre", "uzmanlık"]]
         if not all(veriler):
@@ -643,7 +658,10 @@ def doktorları_yonet():
     
     tk.Button(pencere, text="Doktoru Sil", command=sil).pack(pady=5)
 
-      #doktor ekleme alanı
+    """
+    Doktor ekleme alanı
+    """
+
     frame = tk.Frame(pencere)
     frame.pack(pady=10)
 
@@ -666,7 +684,10 @@ def yoneticileri_yonet():
     pencere = tk.Toplevel()
     pencere.title("Yöneticileri Yönet")
 
-    #yönetici listesi
+    """
+    Yönetici listesi
+    """
+
     liste = tk.Listbox(pencere, width=50)
     liste.pack(pady=10)
  
@@ -674,8 +695,10 @@ def yoneticileri_yonet():
     for y in yoneticiler:
         liste.insert(tk.END, f"{y[0]} - {y[1]}")
 
- 
-      #seçilen yöneticiyi silen fonksiyon
+    """
+    Seçilen yöneticiyi silen fonksiyon
+    """
+
     def sil():
         secili = liste.curselection()
         if not secili:
@@ -689,7 +712,10 @@ def yoneticileri_yonet():
 
     tk.Button(pencere, text="Yönetici Sil", command=sil).pack(pady=5)
 
-#yeni yönetici ekleme alanı
+    """
+    Yeni yönetici ekleme alanı
+    """
+
     frame = tk.Frame(pencere)
     frame.pack(pady=10)
 
@@ -701,7 +727,10 @@ def yoneticileri_yonet():
     entry_sifre = tk.Entry(frame, show="*")
     entry_sifre.grid(row=1, column=1)
 
-    #yeni yönetici ekleyen fonksiyon
+    """
+    Yeni yönetici ekleyen fonksiyon
+    """
+
     def ekle():
         ad = entry_ad.get()
         sifre = entry_sifre.get()

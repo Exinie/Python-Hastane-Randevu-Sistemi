@@ -6,7 +6,10 @@ class YoneticiIslemleri:
     def __init__(self, veritabani_adi="veritabani.db"):
         self.veritabani_adi = veritabani_adi
 
-    #veritabanından tüm hastaları listeler
+    """
+    Veritabanından tüm hastaları listeler
+    """
+
     def hastalari_listele(self):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
@@ -14,8 +17,11 @@ class YoneticiIslemleri:
         veriler = cursor.fetchall()
         conn.close()
         return veriler
-     
-     #belirtilen hasta_id'ye sahip hastayı siler
+    
+    """
+    Belirtilen hasta_id'ye sahip hastayı siler
+    """
+    
     def hasta_sil(self, hasta_id):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
@@ -23,7 +29,10 @@ class YoneticiIslemleri:
         conn.commit()
         conn.close()
 
-     #veritabanından tüm doktorları listeler
+    """
+    Veritabanından tüm doktorları listeler
+    """
+
     def doktorları_listele(self):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
@@ -32,7 +41,10 @@ class YoneticiIslemleri:
         conn.close()
         return veriler
     
-     #belirtilen doktor_id'ye sahip doktoru siler
+    """
+    Belirtilen doktor_id'ye sahip doktoru siler
+    """
+
     def doktor_sil(self, doktor_id):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
@@ -40,7 +52,10 @@ class YoneticiIslemleri:
         conn.commit()
         conn.close()
 
-    #yeni bir doktor ekler
+    """
+    Yeni bir doktor ekler
+    """
+
     def doktor_ekle(self, tc, ad, soyad, sifre, uzmanlik):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
@@ -48,7 +63,10 @@ class YoneticiIslemleri:
         conn.commit()
         conn.close()
 
-    #veritabanından tüm yöneticileri listeler
+    """
+    Veritabanından tüm yöneticileri listeler
+    """
+
     def yoneticileri_listele(self):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
@@ -57,8 +75,10 @@ class YoneticiIslemleri:
         conn.close()
         return veriler
         
+    """
+    Belirtilen kullanıcı adına sahip yöneticiyi siler
+    """
 
-    #belirtilen kullanıcı adına sahip yöneticiyi siler
     def yonetici_sil(self, kullanici_adi):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
@@ -66,8 +86,10 @@ class YoneticiIslemleri:
         conn.commit()
         conn.close()
 
+    """
+    Yeni bir yönetici ekler
+    """
 
-    #yeni bir yönetici ekler
     def yonetici_ekle(self, ad, sifre):
         conn = sqlite3.connect(self.veritabani_adi)
         cursor = conn.cursor()
