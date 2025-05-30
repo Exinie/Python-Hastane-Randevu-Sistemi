@@ -37,7 +37,6 @@ class OturumIslemleri:
         Aldığı TC kimlik numarası, şifre, ad ve soyad değerlerini önce kontrol edip,
         daha sonra HASTALAR tablosuna ekleneyen metod.
         """
-
         if not tc_no.strip() or not sifre.strip() or not ad.strip() or not soyad.strip():
             return "bos_alan_var"
 
