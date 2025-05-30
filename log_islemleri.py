@@ -4,19 +4,15 @@ import sqlite3
 class LogIslemleri:
 
     def __init__(self):
-
         """
         Sınıfın init metotunda diğer metodların kullanabilmesi için veritabanı dosya konumu tanımlandı.
         """
-
         self.veritabani_dosyasi = "veritabani.db"
 
     def log_kaydi_olustur(self, kullanici_turu, kullanici_id, yapilan_islem):
-
         """
         Yapılan işlem bilgisini ve işlemi yapan kullanıcı türünü ve id değerini alıp LOG_KAYITLARI tablosuna ekleyen metot.
         """
-
         try:
             baglanti = sqlite3.connect(self.veritabani_dosyasi)
             cursor = baglanti.cursor()
@@ -34,11 +30,9 @@ class LogIslemleri:
             baglanti.close()
 
     def log_kayitlarini_listele(self):
-
         """
         LOG_KAYITLARI tablosundaki tüm satırları listeyen metot.
         """
-
         try:
             baglanti = sqlite3.connect(self.veritabani_dosyasi)
             cursor = baglanti.cursor()
