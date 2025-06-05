@@ -65,7 +65,7 @@ class HastaIslemleri:
             cursor = conn.cursor()
 
             cursor.execute('''
-                SELECT randevu_id, tarih, saat, sikayet, doktor_id FROM RANDEVULAR WHERE hasta_id = ?
+                SELECT randevu_id, tarih, saat, sikayet, doktor_id FROM RANDEVULAR WHERE hasta_id = ? AND durum != 'İptal Edildi'
             ''', (hasta_id,))
 
             randevu_listesi = cursor.fetchall()
@@ -86,7 +86,7 @@ class HastaIslemleri:
             cursor = conn.cursor()
 
             cursor.execute('''
-                DELETE FROM RANDEVULAR WHERE randevu_id = ?
+                UPDATE RANDEVULAR SET durum = 'İptal Edildi' WHERE randevu_id = ?
             ''', (randevu_id,))
             conn.commit()
             return "Randevu başarıyla iptal edilmiştir."

@@ -267,7 +267,7 @@ def frm_hasta_paneli():
     lbl_ana_baslik = tk.Label(hasta_paneli_pencere, text="Hasta Paneli", font=("Arial", 14))
     lbl_ana_baslik.grid(row=0, column=0, columnspan=3, padx=(10, 0))
 
-    lbl_hos_geldiniz_metni = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz ," + oturum_objesi.oturum["ad"] + " " + oturum_objesi.oturum["soyad"] + "!", font=("Arial", 16, "bold"))
+    lbl_hos_geldiniz_metni = tk.Label(hasta_paneli_pencere, text="Hoş geldiniz, " + oturum_objesi.oturum["ad"] + " " + oturum_objesi.oturum["soyad"] + "!", font=("Arial", 16, "bold"))
     lbl_hos_geldiniz_metni.grid(row=1, column=0, columnspan=3, padx=(5, 15))
 
     """ Metin girişleri ve işlem butonları vs """
