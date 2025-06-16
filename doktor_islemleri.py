@@ -33,7 +33,7 @@ class DoktorIslemleri:
 
     def randevu_sil(self, randevu_id):
         """
-        Belirtilen randevuyu veritabanından siler.
+        Belirtilen randevunun Durumunun veritabanından iptal edildi olarak günceller.
         """
         conn = None
         try:
