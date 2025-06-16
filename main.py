@@ -290,7 +290,7 @@ def frm_hasta_randevu_al():
 
     hasta_randevu_al_pencere = tk.Toplevel()
     hasta_randevu_al_pencere.title("Randevu Al")
-    hasta_randevu_al_pencere.geometry("300x350")
+    hasta_randevu_al_pencere.geometry("300x360")
 
     """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
 
@@ -327,6 +327,8 @@ def frm_hasta_randevu_al():
             frm_hasta_paneli()
         elif gelen_cevap == "dolu":
             messagebox.showwarning("Uyarı", "Seçtiğiniz tarihte doktorunuz meşguldür.")
+        elif gelen_cevap == "doktor_secilmedi":
+            messagebox.showwarning("Uyarı", "Doktor seçimi yapmadınız.")
 
     """ Metin girişleri ve işlem butonları vs """
 
@@ -420,6 +422,9 @@ def frm_doktor_paneli():
     doktor_paneli_pencere.title("Doktor Paneli")
     doktor_paneli_pencere.geometry("1000x400")
 
+    lbl_hos_geldiniz_metni = tk.Label(doktor_paneli_pencere, text="Hoş geldiniz, " + oturum_objesi.oturum["ad"] + " " + oturum_objesi.oturum["soyad"] + "!", font=("Arial", 16, "bold"))
+    lbl_hos_geldiniz_metni.pack()
+
     # Treeview Tablo
     tree = ttk.Treeview(doktor_paneli_pencere, columns=("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"), show="headings")
     for col in ("randevu_id", "hasta_id", "tarih", "saat", "sikayet", "durum"):
@@ -507,7 +512,7 @@ def frm_yonetici_giris():
     """ Yönetici giriş pencere özellikleri """
     yonetici_girisi_pencere = tk.Toplevel()
     yonetici_girisi_pencere.title("Yönetici Giriş")
-    yonetici_girisi_pencere.geometry("300x300")
+    yonetici_girisi_pencere.geometry("300x320")
 
     """ Buton vb öğelere tıklanınca gerçekleşecek işlemler """
     def btn_giris_yap_click():

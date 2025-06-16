@@ -14,12 +14,15 @@ class HastaIslemleri:
             # Aynı doktor, aynı tarih ve saat için zaten bir randevu var mı kontrol et
             cursor.execute('''
                 SELECT * FROM RANDEVULAR
-                WHERE doktor_id = ? AND tarih = ? AND saat = ?
+                WHERE doktor_id = ? AND tarih = ? AND saat = ? AND NOT durum = "İptal Edildi";
             ''', (doktor_id, tarih, saat))
             mevcut = cursor.fetchone()
 
             if mevcut:
                 return "dolu"
+
+            if doktor_id is None:
+                return "doktor_secilmedi"
 
             # Randevuyu eklemek için
             cursor.execute('''

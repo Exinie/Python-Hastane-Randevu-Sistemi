@@ -39,7 +39,7 @@ class DoktorIslemleri:
         try:
             conn = sqlite3.connect(self.veritabani_dosyasi)
             cursor = conn.cursor()
-            cursor.execute("DELETE FROM RANDEVULAR WHERE randevu_id = ?", (randevu_id,))
+            cursor.execute("UPDATE RANDEVULAR SET durum = 'İptal Edildi' WHERE randevu_id = ?", (randevu_id,))
             conn.commit()
             if cursor.rowcount == 0:
                 return "randevu_bulunamadi"
